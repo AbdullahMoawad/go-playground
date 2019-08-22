@@ -5,7 +5,8 @@ import (
     _ "github.com/jinzhu/gorm/dialects/postgres"
     "github.com/sql-queries/models"
 )
-var db *gorm.DB
+
+// var db *gorm.DB
 
 func Conn () *gorm.DB {
     db, err := gorm.Open("postgres", "host=localhost port=5432 user=abdullah dbname=queries password=root sslmode=disable" )
@@ -15,5 +16,3 @@ func Conn () *gorm.DB {
     db.AutoMigrate(models.User{})
     return db
 }
-
-

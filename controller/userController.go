@@ -16,15 +16,16 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	user.Password = common.HashPassword(user.Password)
 
 	if err := serv.Conn().Model(&user).Where("email = ?", user.Email).Updates(map[string]interface{}{
-		"nickName":    user.NickName,
-		"firsName":    user.FirstName,
-		"lastName":    user.LastName,
-		"password":    user.Password,
-		"email":       user.Email,
-		"address":     user.Address,
-		"phoneNumber": user.PhoneNumber,
-		"isActive":    user.IsActive	,});
-	err != nil {
+		"nickName":     user.NickName,
+		"firsName":     user.FirstName,
+		"lastName":     user.LastName,
+		"password":     user.Password,
+		"email":        user.Email,
+		"address":      user.Address,
+		"phoneNumber":  user.PhoneNumber,
+		"isAdmin":      user.IsAdmin,
+		"isSuperAdmin": user.IsSuperAdmin,
+		"isActive":     user.IsActive}); err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
@@ -47,12 +48,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 }
+
 func Login(w http.ResponseWriter, r *http.Request) {
-	//var user *models.User
-	session, err := serv.Store.Get(r, "login")
-	if err != nil{
-		panic(err)
-	}
 	var userLogin *UserLogin
 
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
@@ -60,64 +57,28 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err, user := userLogin.Format().ValidateLogin()
-	if err != nil{
-		_ = json.NewEncoder(w).Encode(err)
-
-		return
+	if err != nil {
+		panic(err)
 	}
-
 
 	if err := json.NewEncoder(w).Encode(user); err != nil {
 		panic(err)
 	}
-	session.Values["authenticated"] = true
-	if  err = session.Save(r, w); err != nil {
-		_ = json.NewEncoder(w).Encode(err)
-		return
-	}
-
 }
 
-func Deactivate(w http.ResponseWriter, r *http.Request) {
-	//var user *models.User
-	session, err := serv.Store.Get(r, "login")
-	if err != nil{
-		panic(err)
-	}
-	var userLogin *UserLogin
+func DeactivateUser(w http.ResponseWriter, r *http.Request) {
 
-	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
-		panic(err)
-	}
-
-	err, user := userLogin.Format().ValidateLogin()
-	if err != nil{
-		_ = json.NewEncoder(w).Encode(err)
-
-		return
-	}
-
-
-	if err := json.NewEncoder(w).Encode(user); err != nil {
-		panic(err)
-	}
-	session.Values["authenticated"] = true
-	if  err = session.Save(r, w); err != nil {
-		_ = json.NewEncoder(w).Encode(err)
-		return
-	}
-
-}
-
-func Logout(w http.ResponseWriter, r *http.Request) {
 	var user *models.User
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		panic(err)
 	}
 
-	if err := serv.Conn().Create(&user); err != nil {
-		_ = json.NewEncoder(w).Encode(err)
+	if err := serv.Conn().Model(&user).Where("email = ?", user.Email).Updates(map[string]interface{}{
+		"email":    user.Email,
+		"password": user.Password,
+		"isActive": false}); err != nil {
+		json.NewEncoder(w).Encode(err)
 		return
 	}
 
