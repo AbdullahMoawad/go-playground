@@ -11,7 +11,8 @@ func Routes()  {
 	r.HandleFunc("/user", Logging(controller.CreateUser)).Methods("POST")
 	r.HandleFunc("/update", Logging(controller.UpdateUser)).Methods("PUT")
 	r.HandleFunc("/user/login", Logging(controller.Login)).Methods("POST")
-	r.HandleFunc("/user/logout", Logging(controller.Logout)).Methods("PUT")
+	r.HandleFunc("/user/deactivate", Logging(controller.DeactivateUser)).Methods("POST")
+	//r.HandleFunc("/user/logout", Logging(controller.Logout)).Methods("PUT")
 	http.ListenAndServe(":8000", r)
 
 }

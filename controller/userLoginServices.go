@@ -17,6 +17,11 @@ type UserLogin struct {
 	IsActive 	bool
 }
 
+type Deactivate struct {
+	Email 		string 	`gorm:"type:varchar(100);unique_index"`
+	IsActive 	bool
+}
+
 func (self *UserLogin) Format() *UserLogin {
 
 	self.Email = strings.ToLower(self.Email)
