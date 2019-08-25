@@ -51,11 +51,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
-	_, err := store.Get(r, "login-session")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	var userLogin *UserLogin
 
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
