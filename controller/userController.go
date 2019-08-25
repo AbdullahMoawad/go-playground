@@ -2,11 +2,17 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/gorilla/sessions"
 	"github.com/sql-queries/common"
 	"github.com/sql-queries/models"
 	serv "github.com/sql-queries/server"
 	"net/http"
+	"os"
 )
+
+var store = sessions.NewCookieStore([]byte(os.Getenv("123123123123123123")))
+
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	var user *models.User
@@ -50,6 +56,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+
+	_, err := store.Get(r, "login-session")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	var userLogin *UserLogin
 
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
