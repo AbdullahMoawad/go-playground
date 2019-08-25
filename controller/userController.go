@@ -50,7 +50,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-
 	var userLogin *UserLogin
 
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {

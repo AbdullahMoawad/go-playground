@@ -8,3 +8,7 @@ jobs:
       - run:
           name: Go vet
           command: go vet
+      - run:
+          name: Go vet
+          command: go test -v
+
