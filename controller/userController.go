@@ -2,17 +2,11 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/gorilla/sessions"
 	"github.com/sql-queries/common"
 	"github.com/sql-queries/models"
 	serv "github.com/sql-queries/server"
 	"net/http"
-	"os"
 )
-
-var store = sessions.NewCookieStore([]byte(os.Getenv("123123123123123123")))
-
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	var user *models.User
