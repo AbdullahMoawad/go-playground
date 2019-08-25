@@ -18,3 +18,5 @@ type User struct {
 	IsSuperAdmin bool
 	IsActive     bool
 }
+
+

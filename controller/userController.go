@@ -55,15 +55,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
 		panic(err)
 	}
-
 	err, user := userLogin.Format().ValidateLogin()
 	if err != nil {
 		panic(err)
 	}
+	CreateSession(user.ID )
 
 	if err := json.NewEncoder(w).Encode(user); err != nil {
 		panic(err)
 	}
+
 }
 
 func DeactivateUser(w http.ResponseWriter, r *http.Request) {
@@ -81,8 +82,10 @@ func DeactivateUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-
 	if err := json.NewEncoder(w).Encode(user); err != nil {
 		panic(err)
 	}
 }
+// @todo when logout find in database and dealte sessionId
+// @todo when check if logged in i will send session id in header if existe = detele , if not existe return error   not logged in
+// @todo vreate proprties
