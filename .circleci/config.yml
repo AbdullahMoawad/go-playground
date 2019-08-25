@@ -3,53 +3,8 @@ jobs:
   api:
     docker:
       - image: circleci/golang:1.12
-    working_directory: /go/payment
     steps:
       - checkout
-      - setup_remote_docker
       - run:
           name: Go vet
-          command: |
-            go vet -composites=false .
-      - run:
-          name: Go Build
-          command: |
-            CGO_ENABLED=0 GOOS=linux go build -a -installsuffix  cgo -o app main.go
-      - run:
-          name: Build Image
-          command: |
-            docker build -t payment-api -f Dockerfile_api_prod .
-            docker build -t payment-ops -f DockerFile_ops .
-      - run:
-          name: Push Image
-          command: |
-            docker login --username=${DOCKER_USER} --password=${DOCKER_PASSWORD}
-
-            docker tag payment-api fly365dotcom/payment-api:dev-${CIRCLE_SHA1:0:10}
-            docker push fly365dotcom/payment-api:dev-${CIRCLE_SHA1:0:10}
-
-            docker tag payment-api fly365dotcom/payment-api:latest-dev
-            docker push fly365dotcom/payment-api:latest-dev
-
-            docker tag payment-ops fly365dotcom/payment-ops:dev-${CIRCLE_SHA1:0:10}
-            docker push fly365dotcom/payment-ops:dev-${CIRCLE_SHA1:0:10}
-
-            docker tag payment-ops fly365dotcom/payment-ops:latest-dev
-            docker push fly365dotcom/payment-ops:latest-dev
-
-      - run:
-          name: Deployment
-          command: |
-            ssh-keyscan ${JUMP_HOST} >> ~/.ssh/known_hosts
-            ssh ${DEV_USER}@${JUMP_HOST} "helm upgrade --force --namespace dev --install   payment-api devops/environments/dev/api/payment-api --set=image.tag=dev-${CIRCLE_SHA1:0:10}"
-            ssh ${DEV_USER}@${JUMP_HOST} "helm upgrade --force --namespace dev --install   payment-ops devops/environments/dev/api/payment-ops --set=image.tag=dev-${CIRCLE_SHA1:0:10}"
-
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - dev_api:
-          filters:
-            branches:
-              only: dev
-          context: dev
+          command: go vet
