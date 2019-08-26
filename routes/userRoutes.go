@@ -8,11 +8,11 @@ import (
 
 func Routes()  {
 	r := mux.NewRouter()
-	r.HandleFunc("/user", Logging(controller.CreateUser)).Methods("POST")
-	r.HandleFunc("/update", Logging(controller.UpdateUser)).Methods("PUT")
-	r.HandleFunc("/user/login", Logging(controller.Login)).Methods("POST")
-	r.HandleFunc("/user/deactivate", Logging(controller.DeactivateUser)).Methods("POST")
-	//r.HandleFunc("/user/logout", Logging(controller.Logout)).Methods("PUT")
+	r.HandleFunc("/user", IsLoggedin(controller.CreateUser)).Methods("POST")
+	r.HandleFunc("/update", IsLoggedin(controller.UpdateUser)).Methods("PUT")
+	r.HandleFunc("/user/login", IsLoggedin(controller.Login)).Methods("POST")
+	r.HandleFunc("/user/deactivate", IsLoggedin(controller.DeactivateUser)).Methods("POST")
+	r.HandleFunc("/user/logout", IsLoggedin(controller.Logout)).Methods("DELETE")
 	http.ListenAndServe(":8000", r)
 
 }

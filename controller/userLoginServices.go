@@ -14,6 +14,7 @@ type User models.User
 type UserLogin struct {
 	Email 		string 	`gorm:"type:varchar(100);unique_index"`
 	Password 	string
+	SessionId   string
 	IsActive 	bool
 }
 
@@ -35,8 +36,8 @@ func (self *User) FindByLogin(mail string) (error ,*User) {
 	if queryResult.Error != nil {
 		fmt.Println()
 		return errors.New("Error while connecting to database "),nil
-	}
-	return nil ,newUser
+	}else {
+	return nil ,newUser}
 }
 
 func (self *UserLogin) ValidateLogin() (error, *User) {
@@ -62,3 +63,5 @@ func (self *UserLogin) ValidateLogin() (error, *User) {
 
 	return nil, user
 }
+
+
