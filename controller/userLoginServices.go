@@ -24,9 +24,7 @@ type Deactivate struct {
 }
 
 func (self *UserLogin) Format() *UserLogin {
-
 	self.Email = strings.ToLower(self.Email)
-
 	return self
 }
 

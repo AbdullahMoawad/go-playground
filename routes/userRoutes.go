@@ -13,7 +13,11 @@ func Routes()  {
 	r.HandleFunc("/user/deactivate", IsLoggedin(controller.DeactivateUser)).Methods("POST")
 	r.HandleFunc("/user/login", controller.Login).Methods("POST")
 	r.HandleFunc("/user/logout", controller.Logout).Methods("DELETE")
-	http.ListenAndServe(":8000", r)
+
+	//Real Estate Routes
+	r.HandleFunc("/realestate", controller.CreateRealEstate).Methods("POST")
+
+
+	_ = http.ListenAndServe(":8000", r)
 
 }
-

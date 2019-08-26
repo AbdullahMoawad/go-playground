@@ -34,11 +34,10 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	newUser := models.NewUser()
-
+	fmt.Println(r.Body,"-----")
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
 		fmt.Println(err)
 	}
-
 	newUser.Password = common.HashPassword(newUser.Password)
 	if err := serv.Conn().Create(newUser); err != nil {
 		_ = json.NewEncoder(w).Encode(err)

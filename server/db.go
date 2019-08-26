@@ -15,5 +15,6 @@ func Conn () *gorm.DB {
     }
     db.AutoMigrate(&models.User{})
     db.AutoMigrate(&models.Session{})
+    db.AutoMigrate(&models.RealEstate{})
     return db
 }
