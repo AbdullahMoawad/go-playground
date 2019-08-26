@@ -9,10 +9,11 @@ import (
 // var db *gorm.DB
 
 func Conn () *gorm.DB {
-    db, err := gorm.Open("postgres", "host=localhost port=5432 user=abdullah dbname=queries password=root sslmode=disable" )
+    db, err := gorm.Open("postgres", "host=localhost port=5432 user=macbookpro dbname=sql password=root sslmode=disable")
     if err != nil{
         panic(err)
     }
-    db.AutoMigrate(models.User{})
+    db.AutoMigrate(&models.User{})
+    db.AutoMigrate(&models.Session{})
     return db
 }
