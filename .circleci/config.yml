@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.12
+    steps:
+      - checkout
+      - run:
+          name: Go vet
+          command: go vet
+      - run:
+          name: Go test -v
+          command: go test -v 
