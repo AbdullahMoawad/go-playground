@@ -37,7 +37,7 @@ func UpdateEstate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := serv.Conn().Model(&realEstate).Where("real_estate_id = ?", estateId).Updates(map[string]interface{}{
-		"userId":        		 realEstate.UserId,
+		"userId":                realEstate.UserId,
 		"realEstateName":        realEstate.RealEstateName,
 		"realEstateType":        realEstate.RealEstateType,
 		"categoryName":          realEstate.CategoryName,

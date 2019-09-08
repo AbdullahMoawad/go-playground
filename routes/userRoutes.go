@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func Routes()  {
+func Routes() {
 	r := mux.NewRouter()
 	r.HandleFunc("/user", controller.CreateUser).Methods("POST")
 	r.HandleFunc("/user", controller.UpdateUser).Methods("PUT")

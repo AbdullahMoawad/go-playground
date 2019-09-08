@@ -6,6 +6,6 @@ import (
 
 type Category struct {
 	gorm.Model
-	CategoryName	string
-	CategoryId 		int
+	CategoryName string
+	CategoryId   int
 }

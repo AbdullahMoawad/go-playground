@@ -5,7 +5,7 @@ type Log struct {
 	Message string
 }
 
-func Logger(status int,message string) Log  {
-		logger := Log{status ,message }
-		return logger
+func Logger(status int, message string) Log {
+	logger := Log{status, message}
+	return logger
 }

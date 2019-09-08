@@ -7,7 +7,7 @@ import (
 
 type RealEstate struct {
 	gorm.Model
-	UserId                uint `gorm:"primary_key"`
+	UserId                uint      `gorm:"primary_key"`
 	RealEstateId          uuid.UUID `gorm:"primary_key"`
 	RealEstateType        string
 	RealEstateName        string

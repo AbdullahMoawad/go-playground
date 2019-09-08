@@ -59,7 +59,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	user.SessionId = CreateSession(user.ID)
 	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{
-		"session_id" :  user.SessionId,
+		"session_id": user.SessionId,
 	}); err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
@@ -94,5 +94,6 @@ func DeactivateUser(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 }
+
 // @todo when check if logged in i will send session id in header if existe = detele , if not existe return error   not logged in
 // @todo create proprties
