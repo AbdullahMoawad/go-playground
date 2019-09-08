@@ -6,7 +6,7 @@ import (
 	serv "github.com/sql-queries/server"
 )
 
-func CreateSession(userId uint) uuid.UUID {
+func CreateSession(userId uuid.UUID) uuid.UUID {
 	session := models.Session{}
 	session.UserId = userId
 	session.SessionId = uuid.New()

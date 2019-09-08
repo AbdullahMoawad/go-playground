@@ -3,48 +3,52 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/sql-queries/common"
 	"github.com/sql-queries/models"
 	serv "github.com/sql-queries/server"
 	"net/http"
 )
 
-func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	var user *models.User
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		panic(err)
-	}
-	user.Password = common.HashPassword(user.Password)
-
-	// validateduser := user.Validate()
-	if err := serv.Conn().Model(&user).Where("email = ?", user.Email).Updates(map[string]interface{}{
-		"nickName":     user.NickName,
-		"firsName":     user.FirstName,
-		"lastName":     user.LastName,
-		"password":     user.Password,
-		"email":        user.Email,
-		"address":      user.Address,
-		"phoneNumber":  user.PhoneNumber,
-		"isAdmin":      user.IsAdmin,
-		"isSuperAdmin": user.IsSuperAdmin,
-		"isActive":     user.IsActive}); err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
-	}
-}
-
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	newUser := models.NewUser()
+
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
 		fmt.Println(err)
 	}
+
 	newUser.Password = common.HashPassword(newUser.Password)
+
 	if err := serv.Conn().Create(&newUser); err != nil {
 		_ = json.NewEncoder(w).Encode(err)
 		return
 	}
+
 	if err := json.NewEncoder(w).Encode(newUser); err != nil {
 		panic(err)
+	}
+}
+
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+
+	defer r.Body.Close()
+	var user *models.User
+
+	params := mux.Vars(r)
+	id := params["id"]
+
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+		panic(err)
+	}
+
+	if err := serv.Conn().Model(&user).Where("id = ?", id).Updates(map[string]interface{}{
+		"nickName":     user.NickName,
+		"firsName":     user.FirstName,
+		"lastName":     user.LastName,
+		"address":      user.Address,
+		}); err != nil {
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 }
 
@@ -57,7 +61,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	user.SessionId = CreateSession(user.ID)
+	user.SessionId = CreateSession(user.Id)
 	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{
 		"session_id": user.SessionId,
 	}); err != nil {

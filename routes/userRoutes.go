@@ -9,7 +9,7 @@ import (
 func Routes() {
 	r := mux.NewRouter()
 	r.HandleFunc("/user", controller.CreateUser).Methods("POST")
-	r.HandleFunc("/user", controller.UpdateUser).Methods("PUT")
+	r.HandleFunc("/user/{id}", controller.UpdateUser).Methods("PUT")
 	//r.HandleFunc("/me", controller.ProfielOfUser).Methods("PUT")
 	r.HandleFunc("/user/deactivate", controller.DeactivateUser).Methods("POST")
 	r.HandleFunc("/user/login", controller.Login).Methods("POST")
