@@ -3,17 +3,21 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	"github.com/sql-queries/models"
 	serv "github.com/sql-queries/server"
-	"google.golang.org/appengine/user"
 	"net/http"
 )
 
-func CreateRealEstate(w http.ResponseWriter, r *http.Request) {
+func CreateEstate(w http.ResponseWriter, r *http.Request) {
 	newRealEstate := *models.NewRealEstate()
 	if err := json.NewDecoder(r.Body).Decode(&newRealEstate); err != nil {
-		fmt.Println(models.Logger(404,"Error getting data from request .. " ),err)
+		fmt.Println(models.Logger(404, "Error getting data from request .. "), err)
 	}
+
+	newRealEstate.RealEstateId = uuid.New()
+
 	if err := serv.Conn().Create(&newRealEstate); err != nil {
 		_ = json.NewEncoder(w).Encode(err)
 		return
@@ -21,33 +25,35 @@ func CreateRealEstate(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(&newRealEstate)
 }
 
-func UpdateRealEstate(w http.ResponseWriter, r *http.Request) {
+func UpdateEstate(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 	var realEstate *models.RealEstate
+
+	params := mux.Vars(r)
+	estateId := params["estateId"]
+
 	if err := json.NewDecoder(r.Body).Decode(&realEstate); err != nil {
 		panic(err)
 	}
-
-	if err := serv.Conn().Model(&realEstate).Where("email = ?", realEstate.Email).Updates(map[string]interface{}{
-		"userid":
-		"realestateId":
-		"categoryName":
-		"categoryId":
-		"realEstateName":
-		"paymentAmount":
-		"city":                  string
-		"realEstateType":            string
-		FloorSpace            int
-		NumberOfBalconies     int
-		NumberOfBedrooms      int
-		NumberOfBathrooms     int
-		NumberOfGarages       int
-		NumberOfParkingSpaces int
-		Elevator			  string
-		//ContractDetails		  *Contract `gorm:"embedded"`
-		PetsAllowed           bool
-		EstateDiscribtion     string
-		EstatesStatus         bool
-		IsActive              bool}); err != nil {
+	// @todo fix user id change
+	if err := serv.Conn().Model(&realEstate).Where("real_estate_id = ?", estateId).Updates(map[string]interface{}{
+		"realEstateName":        realEstate.RealEstateName,
+		"realEstateType":        realEstate.RealEstateType,
+		"categoryName":          realEstate.CategoryName,
+		"categoryId":            realEstate.CategoryId,
+		"paymentAmount":         realEstate.PaymentAmount,
+		"city":                  realEstate.City,
+		"floorSpace":            realEstate.FloorSpace,
+		"numberOfBalconies":     realEstate.NumberOfBalconies,
+		"numberOfBedrooms":      realEstate.NumberOfBedrooms,
+		"numberOfBathrooms":     realEstate.NumberOfBathrooms,
+		"numberOfGarages":       realEstate.NumberOfGarages,
+		"numberOfParkingSpaces": realEstate.NumberOfParkingSpaces,
+		"elevator":              realEstate.Elevator,
+		"petsAllowed":           realEstate.PetsAllowed,
+		"estateDiscribtion":     realEstate.EstateDiscribtion,
+		"estatesStatus":         realEstate.EstatesStatus,
+	}); err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
 	}

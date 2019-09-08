@@ -1,35 +1,36 @@
 package models
 
 import (
+	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 )
 
 type RealEstate struct {
 	gorm.Model
 	UserId                uint `gorm:"primary_key"`
-	RealEstateId          uint `gorm:"primary_key"`
-	CategoryName 		  string
-	CategoryId			  int
-	RealEstateName            string
+	RealEstateId          uuid.UUID `gorm:"primary_key"`
+	RealEstateType        string
+	RealEstateName        string
+	CategoryName          string
+	CategoryId            int
 	PaymentAmount         int
 	City                  string
-	EstateType            string
 	FloorSpace            int
 	NumberOfBalconies     int
 	NumberOfBedrooms      int
 	NumberOfBathrooms     int
 	NumberOfGarages       int
 	NumberOfParkingSpaces int
-	Elevator			  string
+	Elevator              string
 	//ContractDetails		  *Contract `gorm:"embedded"`
-	PetsAllowed           bool
-	EstateDiscribtion     string
-	EstatesStatus         bool
-	IsActive              bool
+	PetsAllowed       bool
+	EstateDiscribtion string
+	EstatesStatus     bool
+	IsActive          bool
 }
 
 type Contract struct {
-	Owner 			string
+	Owner           string
 	DateOfSigniture string
 }
 
