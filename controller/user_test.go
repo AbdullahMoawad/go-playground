@@ -1,14 +1,9 @@
 package controller
 
-//import (
-//	"github.com/sql-queries/models"
-//	"testing"
-//)
+//func TestValidation(t *testing.T) {
 //
-//func TestGetCurrentUserFromHeaders(t *testing.T) {
-//
-//	sessionid := ""
-//
+//	user := models.User{FirstName:"abdullah",LastName:"mohamed",}
+//		u
 //
 //	ttt := user
 //}

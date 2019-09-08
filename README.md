@@ -10,4 +10,3 @@ GorillaMux
 #rabbitmq
 #elasricSearch
 #redis
-# Ozzo Validation package (https://github.com/go-ozzo/ozzo-validation)

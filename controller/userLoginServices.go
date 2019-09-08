@@ -3,7 +3,6 @@ package controller
 import (
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
 	"github.com/sql-queries/common"
 	"github.com/sql-queries/models"
 	"github.com/sql-queries/server"
@@ -39,16 +38,6 @@ func (self *User) FindByLogin(mail string) (error ,*User) {
 	return nil ,newUser}
 }
 
-func (self *User) GetCurrentUserFromHeaders(SessionID uuid.UUID) (error ,string) {
-	user := &User{}
-	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
-	if queryResult.Error != nil {
-		fmt.Println()
-		return errors.New("Error while connecting to database "),""
-	}else {
-		return nil ,user.Email}
-}
-
 func (self *UserLogin) ValidateLogin() (error, *User) {
 
 	user := &User{}
@@ -73,9 +62,4 @@ func (self *UserLogin) ValidateLogin() (error, *User) {
 	return nil, user
 }
 
-//func (self *User) Validate() error {
-//	return validation.ValidateStruct(&self,
-//		validation.Field(&self.Email, validation.Required, is.Email),
-//		validation.Field(&self.Email, validation.Required, is.Email),
-//	)
-//}
+
