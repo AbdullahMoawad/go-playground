@@ -1,9 +1,9 @@
 package server
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"github.com/sql-queries/models"
+    "github.com/jinzhu/gorm"
+    _ "github.com/jinzhu/gorm/dialects/postgres"
+    "github.com/sql-queries/models"
 )
 
 // var db *gorm.DB
