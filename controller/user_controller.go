@@ -16,6 +16,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	user.Password = common.HashPassword(user.Password)
 
+	// validateduser := user.Validate()
 	if err := serv.Conn().Model(&user).Where("email = ?", user.Email).Updates(map[string]interface{}{
 		"nickName":     user.NickName,
 		"firsName":     user.FirstName,
@@ -34,16 +35,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	newUser := models.NewUser()
-	fmt.Println(r.Body,"-----")
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
 		fmt.Println(err)
 	}
 	newUser.Password = common.HashPassword(newUser.Password)
-	if err := serv.Conn().Create(newUser); err != nil {
+	if err := serv.Conn().Create(&newUser); err != nil {
 		_ = json.NewEncoder(w).Encode(err)
 		return
 	}
-
 	if err := json.NewEncoder(w).Encode(newUser); err != nil {
 		panic(err)
 	}
