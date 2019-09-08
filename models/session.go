@@ -8,6 +8,6 @@ import (
 
 type Session struct {
 	gorm.Model
-	UserId    uint
+	UserId    uuid.UUID
 	SessionId uuid.UUID
 }
