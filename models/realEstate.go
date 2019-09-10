@@ -7,26 +7,25 @@ import (
 
 type RealEstate struct {
 	gorm.Model
-	UserId                uint      `gorm:"primary_key"`
-	RealEstateId          uuid.UUID `gorm:"primary_key"`
-	RealEstateType        string
-	RealEstateName        string
-	CategoryName          string
-	CategoryId            int
-	PaymentAmount         int
-	City                  string
-	FloorSpace            int
-	NumberOfBalconies     int
-	NumberOfBedrooms      int
-	NumberOfBathrooms     int
-	NumberOfGarages       int
-	NumberOfParkingSpaces int
-	Elevator              string
-	//ContractDetails		  *Contract `gorm:"embedded"`
-	PetsAllowed       bool
-	EstateDiscribtion string
-	EstatesStatus     bool
-	IsActive          bool
+	UserId                uint      `gorm:"primary_key" json:"userId"`
+	Id          uuid.UUID `gorm:"primary_key" json:"realEstateId"`
+	Type        string    `json:"Type"`
+	Name        string    `json:"realEstateName"`
+	CategoryName          string    `json:"categoryName"`
+	CategoryId            int       `json:"categoryId"`
+	PaymentAmount         int       `json:"paymentAmount"`
+	City                  string    `json:"city"`
+	FloorSpace            int       `json:"floorSpace"`
+	NumberOfBalconies     int       `json:"numberOfBalconies"`
+	NumberOfBedrooms      int       `json:"numberOfBedrooms"`
+	NumberOfBathrooms     int       `json:"numberOfBathrooms"`
+	NumberOfGarages       int       `json:"numberOfGarages"`
+	NumberOfParkingSpaces int       `json:"numberOfParkingSpaces"`
+	Elevator              string    `json:"elevator"`
+	PetsAllowed           bool      `json:"petsAllowed"`
+	EstateDescription     string    `json:"estateDescription"`
+	EstatesStatus         bool      `json:"estatesStatus"`
+	IsActive              bool      `json:"isActive"`
 }
 
 type Contract struct {
