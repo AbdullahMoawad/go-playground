@@ -5,7 +5,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-
 func Conn() *gorm.DB {
 	db, err := gorm.Open("postgres", "host=localhost port=5432 user=postgres dbname=realestate password=root sslmode=disable")
 	if err != nil {
