@@ -33,7 +33,6 @@ func (self *User) FindByEmail(mail string) (error, *User) {
 	newUser := &User{}
 	queryResult := server.Conn().Where(&User{Email: mail}).First(newUser)
 	if queryResult.Error != nil {
-		fmt.Println()
 		return errors.New("Error while connecting to database "), nil
 	} else {
 		return nil, newUser
@@ -65,16 +64,15 @@ func (self *UserLogin) ValidateLogin() (string, *User) {
 
 		password := common.CheckPasswordHash(self.Password, user.Password)
 		if password == false {
-			return "error login, Wrong email or password", nil
+			return "Error login, Wrong email or password", nil
 		}
 		if user.IsActive == false {
-			return "please reactivate your account or call customer support", nil
+			return "Please reactivate your account or call customer support", nil
 		}
 
-	}else {
+	} else {
 		return "Please insert email and password to login", nil
 	}
-
 	user.Password = ""
 	return "", user
 }

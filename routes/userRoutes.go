@@ -28,6 +28,5 @@ func Routes() {
 	//r.HandleFunc("/category", controller.UpdateCategory).Methods("PUT")
 	//r.HandleFunc("/category/list", controller.ListCategory).Methods("GET")
 	//r.HandleFunc("/category/{id}", controller.DeleteCategory).Methods("DELETE")
-
-	_ = http.ListenAndServe(":8000", r)
+	http.ListenAndServe(":8000", r)
 }

@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/sql-queries/models"
@@ -11,18 +10,18 @@ import (
 )
 
 func CreateEstate(w http.ResponseWriter, r *http.Request) {
-	newRealEstate := *models.NewRealEstate()
+	newRealEstate := models.NewRealEstate()
+
 	if err := json.NewDecoder(r.Body).Decode(&newRealEstate); err != nil {
-		fmt.Println(models.Logger(404, "Error getting data from request .."), err)
-	}
-
-	newRealEstate.RealEstateId = uuid.New()
-
-	if err := serv.Conn().Create(&newRealEstate); err != nil {
-		_ = json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(err)
 		return
 	}
-	_ = json.NewEncoder(w).Encode(&newRealEstate)
+	newRealEstate.Id = uuid.New()
+	if err := serv.Conn().Create(&newRealEstate); err != nil {
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	json.NewEncoder(w).Encode(&newRealEstate)
 }
 
 func UpdateEstate(w http.ResponseWriter, r *http.Request) {
@@ -37,8 +36,8 @@ func UpdateEstate(w http.ResponseWriter, r *http.Request) {
 
 	if err := serv.Conn().Model(&realEstate).Where("real_estate_id = ?", estateId).Updates(map[string]interface{}{
 		"userId":                realEstate.UserId,
-		"realEstateName":        realEstate.RealEstateName,
-		"realEstateType":        realEstate.RealEstateType,
+		"realEstateName":        realEstate.Name,
+		"realEstateType":        realEstate.Type,
 		"categoryName":          realEstate.CategoryName,
 		"categoryId":            realEstate.CategoryId,
 		"paymentAmount":         realEstate.PaymentAmount,
@@ -51,7 +50,7 @@ func UpdateEstate(w http.ResponseWriter, r *http.Request) {
 		"numberOfParkingSpaces": realEstate.NumberOfParkingSpaces,
 		"elevator":              realEstate.Elevator,
 		"petsAllowed":           realEstate.PetsAllowed,
-		"estateDiscribtion":     realEstate.EstateDiscribtion,
+		"estateDiscribtion":     realEstate.EstateDescription,
 		"estatesStatus":         realEstate.EstatesStatus,
 	}); err != nil {
 		json.NewEncoder(w).Encode(err)

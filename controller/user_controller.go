@@ -14,15 +14,17 @@ import (
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	newUser := models.NewUser()
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
-		fmt.Println(err)
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 	newUser.Password = common.HashPassword(newUser.Password)
 	if err := serv.Conn().Create(&newUser); err != nil {
-		_ = json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(err)
 		return
 	}
 	if err := json.NewEncoder(w).Encode(newUser); err != nil {
-		panic(err)
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 }
 
@@ -32,7 +34,8 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		panic(err)
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 	if err := serv.Conn().Model(&user).Where("id = ?", id).Updates(map[string]interface{}{
 		"nickName": user.NickName,
@@ -72,7 +75,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 func Logout(w http.ResponseWriter, r *http.Request) {
 	sessId := r.Header.Get("sessionId")
 	CloseSession(sessId)
-	_ = json.NewEncoder(w).Encode("logged out successfully ")
+	json.NewEncoder(w).Encode("Logged out successfully ")
 }
 
 func Profile(w http.ResponseWriter, r *http.Request)  {
@@ -82,7 +85,6 @@ func Profile(w http.ResponseWriter, r *http.Request)  {
 	params := mux.Vars(r)
 	id := params["id"]
  	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(user)
- 	fmt.Println(queryResult,"------")
 	if queryResult.Error != nil {
 		fmt.Println()
 		return
@@ -111,6 +113,3 @@ func DeactivateUser(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 }
-
-// @todo when check if logged in i will send session id in header if existe = detele , if not existe return error   not logged in
-// @todo create proprties
