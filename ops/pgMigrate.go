@@ -9,10 +9,11 @@ import (
 
 	"os"
 )
+
 var command = &cobra.Command{}
 
 var pgMigrate = &cobra.Command{
-	Use:   "pg-migrate",
+	Use: "pg-migrate",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
 			log.Fatal("Please define which model to migrate ..!")
@@ -34,13 +35,11 @@ var pgMigrate = &cobra.Command{
 	},
 }
 
-func init() {command.AddCommand(pgMigrate)}
+func init() { command.AddCommand(pgMigrate) }
 
 func Execute() {
 	if err := command.Execute(); err != nil {
-	log.Println(err)
-	os.Exit(1)
+		log.Println(err)
+		os.Exit(1)
 	}
 }
-
-

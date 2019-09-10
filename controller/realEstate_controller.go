@@ -13,7 +13,7 @@ import (
 func CreateEstate(w http.ResponseWriter, r *http.Request) {
 	newRealEstate := *models.NewRealEstate()
 	if err := json.NewDecoder(r.Body).Decode(&newRealEstate); err != nil {
-		fmt.Println(models.Logger(404, "Error getting data from request .. "), err)
+		fmt.Println(models.Logger(404, "Error getting data from request .."), err)
 	}
 
 	newRealEstate.RealEstateId = uuid.New()
@@ -28,7 +28,6 @@ func CreateEstate(w http.ResponseWriter, r *http.Request) {
 func UpdateEstate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var realEstate *models.RealEstate
-
 	params := mux.Vars(r)
 	estateId := params["estateId"]
 

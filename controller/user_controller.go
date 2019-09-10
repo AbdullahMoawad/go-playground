@@ -7,46 +7,39 @@ import (
 	"github.com/sql-queries/common"
 	"github.com/sql-queries/models"
 	serv "github.com/sql-queries/server"
+	"log"
 	"net/http"
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	newUser := models.NewUser()
-
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
 		fmt.Println(err)
 	}
-
 	newUser.Password = common.HashPassword(newUser.Password)
-
 	if err := serv.Conn().Create(&newUser); err != nil {
 		_ = json.NewEncoder(w).Encode(err)
 		return
 	}
-
 	if err := json.NewEncoder(w).Encode(newUser); err != nil {
 		panic(err)
 	}
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-
 	defer r.Body.Close()
 	var user *models.User
-
 	params := mux.Vars(r)
 	id := params["id"]
-
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		panic(err)
 	}
-
 	if err := serv.Conn().Model(&user).Where("id = ?", id).Updates(map[string]interface{}{
-		"nickName":     user.NickName,
-		"firsName":     user.FirstName,
-		"lastName":     user.LastName,
-		"address":      user.Address,
-		}); err != nil {
+		"nickName": user.NickName,
+		"firsName": user.FirstName,
+		"lastName": user.LastName,
+		"address":  user.Address,
+	}); err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
@@ -55,11 +48,13 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 func Login(w http.ResponseWriter, r *http.Request) {
 	var userLogin *UserLogin
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
-		panic(err)
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 	err, user := userLogin.Format().ValidateLogin()
-	if err != nil {
-		panic(err)
+	if err != "" {
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 	user.SessionId = CreateSession(user.Id)
 	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{
@@ -69,7 +64,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := json.NewEncoder(w).Encode(user); err != nil {
-		panic(err)
+		log.Println(err)
+		return
 	}
 }
 
@@ -77,6 +73,23 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	sessId := r.Header.Get("sessionId")
 	CloseSession(sessId)
 	_ = json.NewEncoder(w).Encode("logged out successfully ")
+}
+
+func Profile(w http.ResponseWriter, r *http.Request)  {
+	defer r.Body.Close()
+	var model *models.User
+	user := model
+	params := mux.Vars(r)
+	id := params["id"]
+ 	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(user)
+ 	fmt.Println(queryResult,"------")
+	if queryResult.Error != nil {
+		fmt.Println()
+		return
+	}
+	if err := json.NewEncoder(w).Encode(queryResult); err != nil {
+		panic(err)
+	}
 }
 
 func DeactivateUser(w http.ResponseWriter, r *http.Request) {

@@ -10,7 +10,7 @@ type User struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	DeletedAt    *time.Time `sql:"index"`
-	Id           uuid.UUID
+	Id           string
 	NickName     string
 	FirstName    string
 	LastName     string
@@ -26,7 +26,7 @@ type User struct {
 
 func NewUser() *User {
 	var user User
-	user.Id = uuid.New()
+	user.Id = uuid.New().String()
 	user.IsActive = true
 	user.IsAdmin = false
 	return &user

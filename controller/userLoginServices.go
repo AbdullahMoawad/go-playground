@@ -29,7 +29,7 @@ func (self *UserLogin) Format() *UserLogin {
 	return self
 }
 
-func (self *User) FindByLogin(mail string) (error, *User) {
+func (self *User) FindByEmail(mail string) (error, *User) {
 	newUser := &User{}
 	queryResult := server.Conn().Where(&User{Email: mail}).First(newUser)
 	if queryResult.Error != nil {
@@ -51,26 +51,30 @@ func (self *User) GetCurrentUserFromHeaders(SessionID uuid.UUID) (error, string)
 	}
 }
 
-func (self *UserLogin) ValidateLogin() (error, *User) {
-
+func (self *UserLogin) ValidateLogin() (string, *User) {
 	user := &User{}
 
 	if self.Email != "" && self.Password != "" {
-		_, user = user.FindByLogin(self.Email)
+
+		_, user = user.FindByEmail(self.Email)
 		if user == nil || user.Email == "" {
-			return errors.New("Error login, user doesn't exist "), nil
+			return "Error login, user doesn't exist ", nil
 		} else if self.Email != user.Email {
-			return errors.New("Error login, Wrong email or password "), nil
+			return "Error login, Wrong email or password ", nil
 		}
+
 		password := common.CheckPasswordHash(self.Password, user.Password)
 		if password == false {
-			return errors.New("error login, Wrong email or password"), nil
+			return "error login, Wrong email or password", nil
 		}
 		if user.IsActive == false {
-			return errors.New("please reactivate your account or call customer support"), nil
+			return "please reactivate your account or call customer support", nil
 		}
-	}
-	user.Password = ""
 
-	return nil, user
+	}else {
+		return "Please insert email and password to login", nil
+	}
+
+	user.Password = ""
+	return "", user
 }
