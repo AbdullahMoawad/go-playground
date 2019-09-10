@@ -1,29 +1,41 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"github.com/google/uuid"
+	"time"
 )
 
 type RealEstate struct {
-	gorm.Model
-	UserId                uint `gorm:"primary_key"`
-	EstateName            string
-	PaymentAmount			int
-	City                  string
-	EstateType            string
-	FloorSpace				int
-	NumberOfBalconies     int
-	NumberOfBedrooms      int
-	NumberOfBathrooms     int
-	NumberOfGarages       int
-	NumberOfParkingSpaces int
-	PetsAllowed           bool
-	EstateDiscribtion     string
-	EstatesStatus         bool
-	IsActive 			  bool
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	DeletedAt     *time.Time `sql:"index"`
+	Id            uuid.UUID  `gorm:"primary_key" json:"id"`
+	UserId        uint       `gorm:"primary_key" json:"userId"`
+	Type          string     `json:"Type"`
+	Name          string     `json:"name"`
+	CategoryName  string     `json:"categoryName"`
+	CategoryId    int        `json:"categoryId"`
+	PaymentAmount int        `json:"paymentAmount"`
+	City          string     `json:"city"`
+	FloorSpace    int        `json:"floorSpace"`
+	Balconies     int        `json:"balconies"`
+	Bedrooms      int        `json:"bedrooms"`
+	Bathrooms     int        `json:"bathrooms"`
+	Garages       int        `json:"garages"`
+	ParkingSpaces int        `json:"parkingSpaces"`
+	Elevator      string     `json:"elevator"`
+	PetsAllowed   bool       `json:"petsAllowed"`
+	Description   string     `json:"description"`
+	Status        bool       `json:"status"`
+	IsActive      bool       `json:"isActive"`
 }
 
-func NewRealEstate() *RealEstate  {
+type Contract struct {
+	Owner           string
+	DateOfSigniture string
+}
+
+func NewRealEstate() *RealEstate {
 	var realEstate RealEstate
 	return &realEstate
 }

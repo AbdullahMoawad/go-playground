@@ -2,31 +2,34 @@ package routes
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/sql-queries/models"
 	"github.com/sql-queries/server"
 	"net/http"
 )
 
-func IsLoggedin(f http.HandlerFunc) http.HandlerFunc {
+func IsLoggedIn(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
 		user := models.User{}
-		sessId := r.Header.Get("sessionId")
-		json.NewDecoder(r.Body).Decode(&user)
-		coo := server.Conn().Model(&user).Where("session_id = ?", sessId).First(&user).Value
-		neww ,err := json.Marshal(coo)
-		if err != nil{
-			fmt.Println(err)
+		sessionId := r.Header.Get("sessionId")
+		if sessionId == "" {
+			msg := "Session Error"
+			json.NewEncoder(w).Encode(msg)
+			return
+		}
+		userSession := server.Conn().Model(&user).Where("session_id = ?", sessionId).First(&user)
+		if userSession.Error != nil {
+			msg := "Please Login"
+			json.NewEncoder(w).Encode(msg)
+			return
 		}
 
-		err = json.Unmarshal(neww, user)
-
-		if (user.SessionId).String() == "00000000-0000-0000-0000-000000000000" {
-			fmt.Println("please login frist")
-		} else {
-			fmt.Println("already logged in")
+		if user.SessionId == "00000000-0000-0000-0000-000000000000" {
+			msg := "Please login"
+			json.NewEncoder(w).Encode(msg)
+			return
 		}
 		f(w, r)
 	}
 }
-
