@@ -19,3 +19,4 @@ func CloseSession(SessionId string) {
 	sessions := models.Session{}
 	serv.Conn().Model(&sessions).Where("session_id = ?", SessionId).Unscoped().Delete(&sessions)
 }
+
