@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/sql-queries/common"
-	"github.com/sql-queries/models"
-	serv "github.com/sql-queries/server"
+	"real-estate/common"
+	"real-estate/models"
+	serv "real-estate/server"
 	"log"
 	"net/http"
 )

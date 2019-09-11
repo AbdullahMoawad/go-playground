@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
-	"github.com/sql-queries/models"
-	serv "github.com/sql-queries/server"
+	"real-estate/models"
+	serv "real-estate/server"
 	"net/http"
 )
 

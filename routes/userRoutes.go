@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/sql-queries/controller"
 	"net/http"
+	"real-estate/controller"
 )
 
 func Routes() {

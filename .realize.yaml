@@ -3,8 +3,8 @@ settings:
     force: false
     interval: 0s
 schema:
-- name: sql-queries
-  path: /Users/abdullah/github/sql-queries
+- name: real-estate
+  path: /Users/abdullah/github/real-estate
   commands:
     vet:
       status: true
