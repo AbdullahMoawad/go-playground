@@ -3,9 +3,9 @@ package ops
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/sql-queries/models"
-	"github.com/sql-queries/server"
 	"log"
+	"real-estate/models"
+	"real-estate/server"
 
 	"os"
 )

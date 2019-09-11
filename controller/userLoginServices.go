@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/google/uuid"
-	"github.com/sql-queries/common"
-	"github.com/sql-queries/models"
-	"github.com/sql-queries/server"
+	"real-estate/common"
+	"real-estate/models"
+	"real-estate/server"
 	"strings"
 )
 

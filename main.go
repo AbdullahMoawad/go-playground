@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/sql-queries/ops"
-	setupRoutes "github.com/sql-queries/routes"
+	"real-estate/ops"
+	setupRoutes "real-estate/routes"
 )
 
 func main() {

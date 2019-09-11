@@ -1,7 +1,7 @@
 package controller
 
 //import (
-//	"github.com/sql-queries/models"
+//	"github.com/real-estate/models"
 //	"testing"
 //)
 //

@@ -3,9 +3,9 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sql-queries/models"
-	"github.com/sql-queries/server"
 	"net/http"
+	"real-estate/models"
+	"real-estate/server"
 )
 
 func IsLoggedin(f http.HandlerFunc) http.HandlerFunc {

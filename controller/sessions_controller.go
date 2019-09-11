@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/google/uuid"
-	"github.com/sql-queries/models"
-	serv "github.com/sql-queries/server"
+	"real-estate/models"
+	serv "real-estate/server"
 )
 
 func CreateSession(userId string) uuid.UUID {
