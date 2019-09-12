@@ -18,7 +18,7 @@ type User struct {
 	Password     string     `json:"password"`
 	Address      string     `json:"address"`
 	PhoneNumber  string     `gorm:"type:varchar(11);unique_index" json:"phoneNumber"`
-	SessionId    uuid.UUID  `json:"sessionId"`
+	SessionId    string     `json:"sessionId"`
 	IsAdmin      bool       `json:"isAdmin"`
 	IsSuperAdmin bool       `json:"isSuperAdmin"`
 	IsActive     bool       `json:"isActive"`

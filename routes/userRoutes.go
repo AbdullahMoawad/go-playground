@@ -18,13 +18,13 @@ func Routes() {
 	//Real Estate Routes
 	r.HandleFunc("/estate", IsLoggedin(controller.CreateEstate)).Methods("POST")
 	r.HandleFunc("/estate/{estateId}", IsLoggedin(controller.UpdateEstate)).Methods("PUT")
-	//r.HandleFunc("/estate/my", controller.MyRealEstates).Methods("GET")
+	//r.HandleFunc("/estate/my", controller.MyEstates).Methods("GET")
 	//r.HandleFunc("/estate/list", controller.ListRealEstates).Methods("GET")
 	//r.HandleFunc("/estate/all", controller.ListAllRealEstates).Methods("GET")
 	//r.HandleFunc("/estate/{id}", controller.DeleteRealEstates).Methods("DELETE")
 
 	//Category Routes
-	//r.HandleFunc("/category", controller.CreateCategory).Methods("POST")
+	r.HandleFunc("/category", IsLoggedin(controller.CreateCategory)).Methods("POST")
 	//r.HandleFunc("/category", controller.UpdateCategory).Methods("PUT")
 	//r.HandleFunc("/category/list", controller.ListCategory).Methods("GET")
 	//r.HandleFunc("/category/{id}", controller.DeleteCategory).Methods("DELETE")

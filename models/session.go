@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -9,5 +8,5 @@ import (
 type Session struct {
 	gorm.Model
 	UserId    string
-	SessionId uuid.UUID
+	SessionId string
 }

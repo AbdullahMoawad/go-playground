@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-
 	setupRoutes.Routes()
 	ops.Execute()
 }

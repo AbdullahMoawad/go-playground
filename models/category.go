@@ -1,11 +1,19 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"github.com/google/uuid"
+	"time"
 )
 
 type Category struct {
-	gorm.Model
-	CategoryName string
-	CategoryId   int
+	Id        uuid.UUID `gorm:"type:varchar(100);unique_index" json:"id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `sql:"index"`
+}
+
+func NewCategory() *Category {
+	var category Category
+	return &category
 }

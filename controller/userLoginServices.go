@@ -3,7 +3,6 @@ package controller
 import (
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
 	"real-estate/common"
 	"real-estate/models"
 	"real-estate/server"
@@ -27,27 +26,6 @@ type Deactivate struct {
 func (self *UserLogin) Format() *UserLogin {
 	self.Email = strings.ToLower(self.Email)
 	return self
-}
-
-func (self *User) FindByEmail(mail string) (error, *User) {
-	newUser := &User{}
-	queryResult := server.Conn().Where(&User{Email: mail}).First(newUser)
-	if queryResult.Error != nil {
-		return errors.New("Error while connecting to database "), nil
-	} else {
-		return nil, newUser
-	}
-}
-
-func (self *User) GetCurrentUserFromHeaders(SessionID uuid.UUID) (error, string) {
-	user := &User{}
-	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
-	if queryResult.Error != nil {
-		fmt.Println()
-		return errors.New("Error while connecting to database "), ""
-	} else {
-		return nil, user.Email
-	}
 }
 
 func (self *UserLogin) ValidateLogin() (string, *User) {
@@ -75,4 +53,25 @@ func (self *UserLogin) ValidateLogin() (string, *User) {
 	}
 	user.Password = ""
 	return "", user
+}
+
+func (self *User) FindByEmail(mail string) (error, *User) {
+	newUser := &User{}
+	queryResult := server.Conn().Where(&User{Email: mail}).First(newUser)
+	if queryResult.Error != nil {
+		return errors.New("Error while connecting to database "), nil
+	} else {
+		return nil, newUser
+	}
+}
+
+func (self *User) GetCurrentUserFromHeaders(SessionID string) (error, string) {
+	user := &User{}
+	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
+	if queryResult.Error != nil {
+		fmt.Println()
+		return errors.New("Error while connecting to database "), ""
+	} else {
+		return nil, user.Email
+	}
 }
