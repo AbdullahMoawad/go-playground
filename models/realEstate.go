@@ -2,30 +2,32 @@ package models
 
 import (
 	"github.com/google/uuid"
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type RealEstate struct {
-	gorm.Model
-	UserId                uint      `gorm:"primary_key" json:"userId"`
-	Id          uuid.UUID `gorm:"primary_key" json:"realEstateId"`
-	Type        string    `json:"Type"`
-	Name        string    `json:"realEstateName"`
+	UserId                uint      `json:"userId"`
+	Id                    uuid.UUID `gorm:"primary_key" json:"id"`
+	Type                  string    `json:"type"`
+	Name                  string    `json:"name"`
 	CategoryName          string    `json:"categoryName"`
 	CategoryId            int       `json:"categoryId"`
 	PaymentAmount         int       `json:"paymentAmount"`
 	City                  string    `json:"city"`
 	FloorSpace            int       `json:"floorSpace"`
-	NumberOfBalconies     int       `json:"numberOfBalconies"`
-	NumberOfBedrooms      int       `json:"numberOfBedrooms"`
-	NumberOfBathrooms     int       `json:"numberOfBathrooms"`
-	NumberOfGarages       int       `json:"numberOfGarages"`
-	NumberOfParkingSpaces int       `json:"numberOfParkingSpaces"`
+	NumberOfBalconies     int       `json:"balconies"`
+	NumberOfBedrooms      int       `json:"bedrooms"`
+	NumberOfBathrooms     int       `json:"bathrooms"`
+	NumberOfGarages       int       `json:"garages"`
+	NumberOfParkingSpaces int       `json:"parkingSpaces"`
 	Elevator              string    `json:"elevator"`
 	PetsAllowed           bool      `json:"petsAllowed"`
-	EstateDescription     string    `json:"estateDescription"`
-	EstatesStatus         bool      `json:"estatesStatus"`
+	EstateDescription     string    `json:"description"`
+	EstatesStatus         bool      `json:"status"`
 	IsActive              bool      `json:"isActive"`
+	CreatedAt             time.Time
+	UpdatedAt             time.Time
+	DeletedAt             *time.Time `sql:"index"`
 }
 
 type Contract struct {

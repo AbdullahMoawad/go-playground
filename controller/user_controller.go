@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"log"
+	"net/http"
 	"real-estate/common"
 	"real-estate/models"
 	serv "real-estate/server"
-	"log"
-	"net/http"
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +59,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+
 	user.SessionId = CreateSession(user.Id)
+
 	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{
 		"session_id": user.SessionId,
 	}); err != nil {
@@ -78,13 +80,13 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Logged out successfully ")
 }
 
-func Profile(w http.ResponseWriter, r *http.Request)  {
+func Profile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var model *models.User
 	user := model
 	params := mux.Vars(r)
 	id := params["id"]
- 	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(user)
+	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(user)
 	if queryResult.Error != nil {
 		fmt.Println()
 		return

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"net/http"
 	"real-estate/models"
 	serv "real-estate/server"
-	"net/http"
 )
 
 func CreateEstate(w http.ResponseWriter, r *http.Request) {

@@ -6,10 +6,10 @@ import (
 	serv "real-estate/server"
 )
 
-func CreateSession(userId string) uuid.UUID {
+func CreateSession(userId string) string{
 	session := models.Session{}
 	session.UserId = userId
-	session.SessionId = uuid.New()
+	session.SessionId = uuid.New().String()
 	serv.Conn().Create(&session)
 	return session.SessionId
 }
