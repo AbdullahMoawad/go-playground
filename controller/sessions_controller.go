@@ -6,7 +6,7 @@ import (
 	serv "real-estate/server"
 )
 
-func CreateSession(userId string) string{
+func CreateSession(userId string) string {
 	session := models.Session{}
 	session.UserId = userId
 	session.SessionId = uuid.New().String()
