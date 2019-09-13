@@ -1,4 +1,4 @@
-package controller
+package services
 
 import (
 	"errors"
@@ -75,3 +75,5 @@ func (self *User) GetCurrentUserFromHeaders(SessionID string) (error, string) {
 		return nil, user.Email
 	}
 }
+
+

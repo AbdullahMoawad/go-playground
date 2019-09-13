@@ -2,10 +2,10 @@ package main
 
 import (
 	"real-estate/ops"
-	setupRoutes "real-estate/routes"
+	StartServer "real-estate/routes"
 )
 
 func main() {
-	setupRoutes.Routes()
+	StartServer.Routes()
 	ops.Execute()
 }

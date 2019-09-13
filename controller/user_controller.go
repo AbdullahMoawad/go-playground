@@ -9,6 +9,7 @@ import (
 	"real-estate/common"
 	"real-estate/models"
 	serv "real-estate/server"
+	"real-estate/services"
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +50,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	var userLogin *UserLogin
+	var userLogin *services.UserLogin
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
 		json.NewEncoder(w).Encode(err)
 		return

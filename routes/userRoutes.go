@@ -17,8 +17,8 @@ func Routes() {
 
 	//Real Estate Routes
 	r.HandleFunc("/estate", IsLoggedin(controller.CreateEstate)).Methods("POST")
-	r.HandleFunc("/estate/{estateId}", IsLoggedin(controller.UpdateEstate)).Methods("PUT")
-	//r.HandleFunc("/estate/my", controller.MyEstates).Methods("GET")
+	r.HandleFunc("/estate/{Id}", IsLoggedin(controller.UpdateEstate)).Methods("PUT")
+	r.HandleFunc("/estate/all", IsLoggedin(controller.All)).Methods("GET")
 	//r.HandleFunc("/estate/list", controller.ListRealEstates).Methods("GET")
 	//r.HandleFunc("/estate/all", controller.ListAllRealEstates).Methods("GET")
 	//r.HandleFunc("/estate/{id}", controller.DeleteRealEstates).Methods("DELETE")
