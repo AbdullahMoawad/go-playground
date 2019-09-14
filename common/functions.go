@@ -7,7 +7,7 @@ import (
 
 func GetId(r *http.Request) string {
 	params := mux.Vars(r)
-	id := params["Id"]
+	id := params["id"]
 	return id
 }
 

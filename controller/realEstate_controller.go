@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/google/uuid"
 	"net/http"
 	"real-estate/common"
@@ -26,14 +25,12 @@ func CreateEstate(w http.ResponseWriter, r *http.Request) {
 
 	if err := json.NewDecoder(r.Body).Decode(&newRealEstate); err != nil {
 		json.NewEncoder(w).Encode(models.Logger(404, " Error decoding", err))
-		fmt.Println()
-
 		return
 	}
 	sessionId := common.GetSessionId(r)
 	err, userId := GetCurrentUserFromHeaders(sessionId)
 	if err.Error != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(404, "Error while getting user from header ", err.Error))
 		return
 	}
 	newRealEstate.UserId = userId
@@ -75,20 +72,43 @@ func UpdateEstate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-// @todo list all
-func All(w http.ResponseWriter, r *http.Request) {
+
+func ListEstates(w http.ResponseWriter, r *http.Request) {
 	sessionId := common.GetSessionId(r)
 	var estates []models.RealEstate
 
 	err, userId := services.GetCurrentUserIdFromHeaders(sessionId)
-	if err != nil{
-		json.NewEncoder(w).Encode(models.Logger(404,"Error Finding user",err))
+	if err != nil {
+		json.NewEncoder(w).Encode(models.Logger(404, "Error Finding user", err))
 		return
 	}
 
 	queryResult := serv.Conn().Where("user_id = ?", userId).Find(&estates)
-	if queryResult != nil{
-		json.NewEncoder(w).Encode(models.Logger(404,"No real estates fount ..",queryResult.Error))
+	if queryResult != nil {
+		json.NewEncoder(w).Encode(models.Logger(404, "No real estates fount ..", queryResult.Error))
+		return
+	}
+	json.NewEncoder(w).Encode(queryResult)
+}
+
+func OneEstate(w http.ResponseWriter, r *http.Request) {
+	estateId := common.GetId(r)
+	var estates []models.RealEstate
+	queryResult := serv.Conn().Where("id = ?", estateId).First(&estates)
+	if queryResult.Error != nil {
+		json.NewEncoder(w).Encode(models.Logger(404, "No real estates fount ..", queryResult.Error))
+		return
+	}
+	json.NewEncoder(w).Encode(queryResult)
+}
+
+func DeleteEstate(w http.ResponseWriter, r *http.Request) {
+	estateId := common.GetId(r)
+	var estates []models.RealEstate
+	// unscoped to permanently delete record from database
+	queryResult := serv.Conn().Where("id = ?", estateId).Unscoped().Delete(&estates)
+	if queryResult.Error != nil {
+		json.NewEncoder(w).Encode(models.Logger(404, "No real estates fount ..", queryResult.Error))
 		return
 	}
 	json.NewEncoder(w).Encode(queryResult)
