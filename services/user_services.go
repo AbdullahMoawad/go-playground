@@ -75,5 +75,3 @@ func (self *User) GetCurrentUserFromHeaders(SessionID string) (error, string) {
 		return nil, user.Email
 	}
 }
-
-

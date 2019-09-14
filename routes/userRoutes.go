@@ -17,16 +17,16 @@ func Routes() {
 
 	//Real Estate Routes
 	r.HandleFunc("/estate", IsLoggedin(controller.CreateEstate)).Methods("POST")
-	r.HandleFunc("/estate/{Id}", IsLoggedin(controller.UpdateEstate)).Methods("PUT")
-	r.HandleFunc("/estate/all", IsLoggedin(controller.All)).Methods("GET")
-	//r.HandleFunc("/estate/list", controller.ListRealEstates).Methods("GET")
-	//r.HandleFunc("/estate/all", controller.ListAllRealEstates).Methods("GET")
-	//r.HandleFunc("/estate/{id}", controller.DeleteRealEstates).Methods("DELETE")
+	r.HandleFunc("/estate/{id}", IsLoggedin(controller.UpdateEstate)).Methods("PUT")
+	r.HandleFunc("/estate/all", IsLoggedin(controller.ListEstates)).Methods("GET")
+	r.HandleFunc("/estate/one/{id}", IsLoggedin(controller.OneEstate)).Methods("GET")
+	r.HandleFunc("/estate/{id}", IsLoggedin(controller.DeleteEstate)).Methods("DELETE")
 
 	//Category Routes
 	r.HandleFunc("/category", IsLoggedin(controller.CreateCategory)).Methods("POST")
-	//r.HandleFunc("/category", controller.UpdateCategory).Methods("PUT")
-	//r.HandleFunc("/category/list", controller.ListCategory).Methods("GET")
-	//r.HandleFunc("/category/{id}", controller.DeleteCategory).Methods("DELETE")
+	r.HandleFunc("/category/all", IsLoggedin(controller.ListCategories)).Methods("GET")
+	r.HandleFunc("/category/one/{id}", IsLoggedin(controller.OneCategory)).Methods("GET")
+	r.HandleFunc("/category/{id}", IsLoggedin(controller.DeleteCategory)).Methods("DELETE")
+
 	http.ListenAndServe(":8000", r)
 }
