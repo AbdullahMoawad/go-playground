@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"real-estate/controller"
+	"real-estate/uploader"
 )
 
 func Routes() {
@@ -27,6 +28,9 @@ func Routes() {
 	r.HandleFunc("/category/all", IsLoggedin(controller.ListCategories)).Methods("GET")
 	r.HandleFunc("/category/one/{id}", IsLoggedin(controller.OneCategory)).Methods("GET")
 	r.HandleFunc("/category/{id}", IsLoggedin(controller.DeleteCategory)).Methods("DELETE")
+
+	// Upload file
+	r.HandleFunc("/upload", IsLoggedin(uploader.UploadFile)).Methods("POST")
 
 	http.ListenAndServe(":8000", r)
 }
