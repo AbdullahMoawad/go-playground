@@ -3,11 +3,9 @@ settings:
     force: false
     interval: 0s
 schema:
-- name: real-estate
-  path: /Users/abdullah/github/real-estate
+- name: /Users/abdullah/dev/real-estate
+  path: /Users/abdullah/dev/real-estate
   commands:
-    vet:
-      status: true
     install:
       status: true
     run:
