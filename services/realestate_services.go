@@ -1,15 +1,13 @@
 package services
 
 import (
+	"github.com/jinzhu/gorm"
 	"real-estate/models"
 	"real-estate/server"
 )
 
-func GetCurrentUserIdFromHeaders(SessionID string) (error, string) {
-	session := models.Session{}
-	queryResult := server.Conn().Where(&models.Session{SessionId: SessionID}).First(&session)
-	if queryResult.Error != nil {
-		return queryResult.Error, ""
-	}
-	return nil, session.UserId
+func FindAllEstates(userId string)  *gorm.DB{
+	estates := []models.RealEstate{}
+	queryResult := server.Conn().Where("user_id = ?", userId).Find(&estates)
+	return queryResult
 }

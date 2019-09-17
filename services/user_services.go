@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"real-estate/common"
 	"real-estate/models"
 	"real-estate/server"
@@ -61,23 +60,13 @@ func (self *User) FindByEmail(mail string) (error, *User) {
 	}
 }
 
-func (self *User) GetUserIdFromHeaders(SessionID string) (error, string) {
-	user := &User{}
-	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
-	if queryResult.Error != nil {
-		return queryResult.Error, ""
-	} else {
-		return nil, user.Id
-	}
-}
-
-func (self *User) GetCurrentUserFromHeaders(SessionID string) (error, string) {
-	user := &User{}
-	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
-	if queryResult.Error != nil {
-		fmt.Println()
-		return queryResult.Error , ""
-	} else {
-		return nil, user.Email
-	}
-}
+//func (self *User) GetCurrentUserFromHeaders(SessionID string) (error, string) {
+//	user := &User{}
+//	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
+//	if queryResult.Error != nil {
+//		fmt.Println()
+//		return queryResult.Error, ""
+//	} else {
+//		return nil, user.Email
+//	}
+//}

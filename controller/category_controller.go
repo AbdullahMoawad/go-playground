@@ -12,10 +12,15 @@ import (
 func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	category := models.NewCategory()
 	if err := json.NewDecoder(r.Body).Decode(&category); err != nil {
-		json.NewEncoder(w).Encode(models.Logger(500, "Error Decoding request body", err))
+		json.NewEncoder(w).Encode(models.Logger(500, common.DecodingError, err))
 		return
 	}
-	if err := serv.Conn().Create(&category); err != nil {
+	IsExist := services.IsExist(category.Name)
+	if IsExist {
+		json.NewEncoder(w).Encode(models.Logger(500, common.CategoryAlredyExist, nil))
+		return
+	}
+	if err := serv.Conn().Create(&category); err.Error != nil {
 		json.NewEncoder(w).Encode(models.Logger(500, "Error create category", err.Error))
 		return
 	}
@@ -23,17 +28,9 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListCategories(w http.ResponseWriter, r *http.Request) {
-	sessionId := common.GetSessionId(r)
-	var estates []models.RealEstate
-
-	err, userId := services.GetCurrentUserIdFromHeaders(sessionId)
-	if err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, "Error Finding user", err))
-		return
-	}
-
-	queryResult := serv.Conn().Where("user_id = ?", userId).Find(&estates)
-	if queryResult != nil {
+	var category []models.Category
+	queryResult := serv.Conn().Find(&category)
+	if queryResult.Error != nil {
 		json.NewEncoder(w).Encode(models.Logger(404, "No real estates fount ..", queryResult.Error))
 		return
 	}
@@ -41,9 +38,9 @@ func ListCategories(w http.ResponseWriter, r *http.Request) {
 }
 
 func OneCategory(w http.ResponseWriter, r *http.Request) {
-	estateId := common.GetId(r)
-	var estates []models.RealEstate
-	queryResult := serv.Conn().Where("id = ?", estateId).First(&estates)
+	id := common.GetId(r)
+	var category []models.Category
+	queryResult := serv.Conn().Where("id = ?", id).First(&category)
 	if queryResult.Error != nil {
 		json.NewEncoder(w).Encode(models.Logger(404, "No real estates fount ..", queryResult.Error))
 		return
