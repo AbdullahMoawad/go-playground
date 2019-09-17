@@ -26,7 +26,7 @@ func Routes() {
 	//Category Routes
 	r.HandleFunc("/category", IsLoggedin(controller.CreateCategory)).Methods("POST")
 	r.HandleFunc("/category/all", IsLoggedin(controller.ListCategories)).Methods("GET")
-	r.HandleFunc("/category/one/{id}", IsLoggedin(controller.OneCategory)).Methods("GET")
+	r.HandleFunc("/category/{id}", IsLoggedin(controller.OneCategory)).Methods("GET")
 	r.HandleFunc("/category/{id}", IsLoggedin(controller.DeleteCategory)).Methods("DELETE")
 
 	// Upload file

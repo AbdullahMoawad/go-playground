@@ -2,9 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/gorilla/mux"
-	"log"
 	"net/http"
 	"real-estate/common"
 	"real-estate/models"
@@ -13,9 +10,11 @@ import (
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	newUser := models.NewUser()
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
 		return
 	}
 	newUser.Password = common.HashPassword(newUser.Password)
@@ -32,10 +31,10 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var user *models.User
-	params := mux.Vars(r)
-	id := params["id"]
+	id := common.GetId(r)
+
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
 		return
 	}
 	if err := serv.Conn().Model(&user).Where("id = ?", id).Updates(map[string]interface{}{
@@ -60,19 +59,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-
+	// set session id
 	user.SessionId = CreateSession(user.Id)
 
-	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{
-		"session_id": user.SessionId,
-	}); err != nil {
+	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{"session_id": user.SessionId,}); err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	if err := json.NewEncoder(w).Encode(user); err != nil {
-		log.Println(err)
-		return
-	}
+	json.NewEncoder(w).Encode(user)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
@@ -83,26 +77,23 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 func Profile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	var model *models.User
-	user := model
-	params := mux.Vars(r)
-	id := params["id"]
-	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(user)
+
+	user := models.User{}
+	id := common.GetId(r)
+
+	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(&user)
 	if queryResult.Error != nil {
-		fmt.Println()
+		json.NewEncoder(w).Encode(models.Logger(404, common.ProfileError, queryResult.Error))
 		return
 	}
-	if err := json.NewEncoder(w).Encode(queryResult); err != nil {
-		panic(err)
-	}
+	json.NewEncoder(w).Encode(queryResult)
 }
 
 func DeactivateUser(w http.ResponseWriter, r *http.Request) {
-
-	var user *models.User
-
+	var user models.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		panic(err)
+		json.NewEncoder(w).Encode(models.Logger(500, common.DecodingError, err))
+		return
 	}
 
 	if err := serv.Conn().Model(&user).Where("email = ?", user.Email).Updates(map[string]interface{}{

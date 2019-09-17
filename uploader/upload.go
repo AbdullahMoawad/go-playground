@@ -9,19 +9,20 @@ import (
 	"net/http"
 	"net/textproto"
 	"os"
+	"real-estate/common"
 	"real-estate/models"
-	"real-estate/services"
 )
 
 type image struct {
-	name 	string
-	size 	int64
+	name string
+	size int64
 	// kind is the pic or file part on sys ( profile ,post , else)
-	kind 	string
-	userid 	string
+	kind     string
+	userid   string
 	estateID string
-	headers textproto.MIMEHeader
+	headers  textproto.MIMEHeader
 }
+
 func UploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("File Upload Endpoint Hit")
 	kind := r.Header.Get("kind")
@@ -34,11 +35,11 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	// the Header and the size of the file
 	file, _, err := r.FormFile(kind)
 	if err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, "Error Retrieving the File",err))
+		json.NewEncoder(w).Encode(models.Logger(404, "Error Retrieving the File", err))
 		return
 	}
 	defer file.Close()
-	
+
 	//fmt.Println(image{name:handler.Filename},"/n")
 	//fmt.Println(image{size:handler.Size},"/n")
 	//fmt.Println(image{headers:handler.Header},"/n")
@@ -49,13 +50,13 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	if kind == "profile" {
 		sessId := r.Header.Get("sessionId")
-		err, userId := services.GetCurrentUserIdFromHeaders(sessId)
-		if err!= nil{
+		err, userId := common.GetCurrentUserIdFromHeaders(sessId)
+		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		dir += "temp/profile/" + userId +"/"
+		dir += "temp/profile/" + userId + "/"
 		if _, err := os.Stat(dir); os.IsNotExist(err) {
 			if err := os.Mkdir(dir, 0777); err != nil {
 				log.Println("failed to create test sub-directory:", err)
@@ -69,7 +70,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	tempFile, err := ioutil.TempFile(dir, "upload-*.png")
 	if err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, " ",err))
+		json.NewEncoder(w).Encode(models.Logger(404, " ", err))
 		return
 	}
 	defer tempFile.Close()
@@ -78,12 +79,12 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, "can't read file ",err))
+		json.NewEncoder(w).Encode(models.Logger(404, "can't read file ", err))
 		return
 	}
 	// check if the file you gonna upload is image or no't
 	if !filetype.IsImage(fileBytes) {
-		json.NewEncoder(w).Encode(models.Logger(406, "this file isn't an image (no't accepted)",nil))
+		json.NewEncoder(w).Encode(models.Logger(406, "this file isn't an image (no't accepted)", nil))
 		return
 	}
 
