@@ -39,7 +39,7 @@ func init() { command.AddCommand(pgMigrate) }
 
 func Execute() {
 	if err := command.Execute(); err != nil {
-		log.Println(err, "-------")
+		log.Println(err)
 		os.Exit(1)
 	}
 }

@@ -9,4 +9,5 @@ type Session struct {
 	gorm.Model
 	UserId    string
 	SessionId string
+	Ip        string
 }

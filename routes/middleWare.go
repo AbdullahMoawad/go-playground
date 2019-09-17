@@ -2,24 +2,27 @@ package routes
 
 import (
 	"encoding/json"
-	"log"
+	"net"
 	"net/http"
+	"real-estate/common"
 	_ "real-estate/controller"
 	"real-estate/models"
+	"real-estate/services"
 )
 
 func IsLoggedin(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		session := &models.Session{}
+		ip,_,_ := net.SplitHostPort(r.RemoteAddr)
+		session.Ip = ip
 		session.SessionId = r.Header.Get("sessionId")
-		if session.SessionId == "00000000-0000-0000-0000-000000000000" {
-			json.NewEncoder(w).Encode(models.Logger(401, "Please login", nil))
+		if session.SessionId == common.EmptySessionId {
+			json.NewEncoder(w).Encode(models.Logger(401, common.Login, nil))
 			return
 		}
-		err, _ := findSession(session.SessionId)
+		err, _ :=  services.FindSession(session.SessionId)
 		if err != nil {
-			log.Println(err.Error())
-			json.NewEncoder(w).Encode(models.Logger(401, "Please login,session expired", err))
+			json.NewEncoder(w).Encode(models.Logger(401, common.SessionExpired, err))
 			return
 		}
 		f(w, r)
