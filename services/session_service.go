@@ -1,4 +1,4 @@
-package routes
+package services
 
 import (
 	"real-estate/models"
@@ -7,7 +7,7 @@ import (
 
 type Session models.Session
 
-func findSession(sessionId string) (error, *Session) {
+func FindSession(sessionId string) (error, *Session) {
 	session := &Session{}
 	queryResult := server.Conn().Where(&models.Session{SessionId: sessionId}).First(&session)
 	if queryResult.Error != nil {

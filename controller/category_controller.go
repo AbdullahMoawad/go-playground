@@ -12,11 +12,11 @@ import (
 func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	category := models.NewCategory()
 	if err := json.NewDecoder(r.Body).Decode(&category); err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(500, "Error Decoding request body", err))
 		return
 	}
 	if err := serv.Conn().Create(&category); err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(500, "Error create category", err.Error))
 		return
 	}
 	json.NewEncoder(w).Encode(&category)

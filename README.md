@@ -11,6 +11,11 @@ Ozzo
 
      Validation package (https://github.com/go-ozzo/ozzo-validation)
 
+Uploader
+
+    upload post files , profile pictures
+    postman: form-data (profile) vaule (file)
+    
 Middleware
 
         it helps to check if user is logged in and return a meaningfull error 

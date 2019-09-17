@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"real-estate/common"
 	"real-estate/models"
@@ -32,24 +31,21 @@ func (self *UserLogin) ValidateLogin() (string, *User) {
 	user := &User{}
 
 	if self.Email != "" && self.Password != "" {
-
 		_, user = user.FindByEmail(self.Email)
 		if user == nil || user.Email == "" {
-			return "Error login, user doesn't exist ", nil
+			return common.UserNotFound, nil
 		} else if self.Email != user.Email {
-			return "Error login, Wrong email or password ", nil
+			return common.LoginFailed, nil
 		}
-
 		password := common.CheckPasswordHash(self.Password, user.Password)
 		if password == false {
-			return "Error login, Wrong email or password", nil
+			return common.LoginFailed, nil
 		}
 		if user.IsActive == false {
-			return "Please reactivate your account or call customer support", nil
+			return common.EmptyLoginFields, nil
 		}
-
 	} else {
-		return "Please insert email and password to login", nil
+		return common.UserNotFound, nil
 	}
 	user.Password = ""
 	return "", user
@@ -59,9 +55,19 @@ func (self *User) FindByEmail(mail string) (error, *User) {
 	newUser := &User{}
 	queryResult := server.Conn().Where(&User{Email: mail}).First(newUser)
 	if queryResult.Error != nil {
-		return errors.New("Error while connecting to database "), nil
+		return queryResult.Error, nil
 	} else {
 		return nil, newUser
+	}
+}
+
+func (self *User) GetUserIdFromHeaders(SessionID string) (error, string) {
+	user := &User{}
+	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
+	if queryResult.Error != nil {
+		return queryResult.Error, ""
+	} else {
+		return nil, user.Id
 	}
 }
 
@@ -70,7 +76,7 @@ func (self *User) GetCurrentUserFromHeaders(SessionID string) (error, string) {
 	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
 	if queryResult.Error != nil {
 		fmt.Println()
-		return errors.New("Error while connecting to database "), ""
+		return queryResult.Error , ""
 	} else {
 		return nil, user.Email
 	}
