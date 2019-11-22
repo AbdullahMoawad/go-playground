@@ -11,7 +11,6 @@ import (
 )
 
 var command = &cobra.Command{}
-
 var pgMigrate = &cobra.Command{
 	Use: "pg-migrate",
 	Run: func(cmd *cobra.Command, args []string) {

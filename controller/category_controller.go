@@ -17,7 +17,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	}
 	IsExist := services.IsExist(category.Name)
 	if IsExist {
-		json.NewEncoder(w).Encode(models.Logger(500, common.CategoryAlredyExist, nil))
+		json.NewEncoder(w).Encode(models.Logger(500, common.CategoryAlreadyExist, nil))
 		return
 	}
 	if err := serv.Conn().Create(&category); err.Error != nil {

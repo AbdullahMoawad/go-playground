@@ -7,8 +7,8 @@ import (
 
 func IsExist(name string) bool {
 	category := models.Category{}
-	quereyResult := server.Conn().Where(&models.Category{Name: name}).Find(&category)
-	if quereyResult.Error != nil {
+	queryResult := server.Conn().Where(&models.Category{Name: name}).Find(&category)
+	if queryResult.Error != nil {
 		return false
 	}
 	return true

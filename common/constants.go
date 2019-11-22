@@ -7,7 +7,7 @@ const (
 	EmptySessionId       = "00000000-0000-0000-0000-000000000000 "
 	SessionExpired       = "Please login,session expired "
 	Login                = "Please Login First"
-	CategoryAlredyExist = "Category with same name already exist"
+	CategoryAlreadyExist = "Category with same name already exist"
 	DecodingError        = "Error while decoding request body"
 	ProfileError        = "Error while getting profile data"
 )
