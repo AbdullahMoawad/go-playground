@@ -7,7 +7,7 @@ import (
 )
 
 func FindAllEstates(userId string)  *gorm.DB{
-	estates := []models.RealEstate{}
+	var estates []models.RealEstate
 	queryResult := server.Conn().Where("user_id = ?", userId).Find(&estates)
 	return queryResult
 }
