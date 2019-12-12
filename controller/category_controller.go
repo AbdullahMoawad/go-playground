@@ -28,6 +28,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListCategories(w http.ResponseWriter, r *http.Request) {
+
 	var category []models.Category
 	queryResult := serv.Conn().Find(&category)
 	if queryResult.Error != nil {
