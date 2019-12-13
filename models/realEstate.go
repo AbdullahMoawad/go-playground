@@ -32,7 +32,7 @@ type RealEstate struct {
 
 type Contract struct {
 	Owner           string
-	DateOfSigniture string
+	DateOfSignature string
 }
 
 func NewRealEstate() *RealEstate {
