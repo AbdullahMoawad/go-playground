@@ -6,7 +6,6 @@ import (
 	"real-estate/models"
 	"real-estate/server"
 )
-type Session models.Session
 
 func GetId(r *http.Request) string {
 	params := mux.Vars(r)
@@ -15,16 +14,12 @@ func GetId(r *http.Request) string {
 }
 
 func GetSessionId(r *http.Request) string {
-	params := mux.Vars(r)
-	id := params["Id"]
-	return id
+	sessionId := r.Header.Get("Sessionid")
+	return sessionId
 }
 
 func GetCurrentUserIdFromHeaders(SessionID string) (error, string) {
 	session := models.Session{}
-	queryResult := server.Conn().Where(&models.Session{SessionId: SessionID}).First(&session)
-	if queryResult.Error != nil {
-		return queryResult.Error, ""
-	}
-	return nil, session.UserId
+	queryResult := server.Conn().Where(&models.Session{SessionId:SessionID}).First(&session)
+	return queryResult.Error, session.UserId
 }

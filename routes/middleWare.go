@@ -11,12 +11,12 @@ import (
 
 func IsLoggedin(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id := r.Header.Get("sessionId")
-		if id == common.EmptySessionId {
-			json.NewEncoder(w).Encode(models.Logger(401, common.Login, nil))
+		sessionId := r.Header.Get("Sessionid")
+		if sessionId == "" {
+			 json.NewEncoder(w).Encode(models.Logger(401, common.Login, nil))
 			return
 		}
-		session := services.IsSessionExist(id)
+		session := services.IsSessionExist(sessionId)
 		if !session {
 			json.NewEncoder(w).Encode(models.Logger(401, common.SessionExpired, nil))
 			return

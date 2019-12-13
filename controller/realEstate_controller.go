@@ -21,7 +21,7 @@ func CreateEstate(w http.ResponseWriter, r *http.Request) {
 	sessionId := common.GetSessionId(r)
 
 	err, userId := common.GetCurrentUserIdFromHeaders(sessionId)
-	if err.Error != nil {
+	if err != nil {
 		json.NewEncoder(w).Encode(models.Logger(404, "Error while getting user from header ", err))
 		return
 	}
@@ -46,7 +46,6 @@ func UpdateEstate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := serv.Conn().Model(&realEstate).Where("id = ?", id).Updates(map[string]interface{}{
-		"userId":        realEstate.UserId,
 		"name":          realEstate.Name,
 		"type":          realEstate.Type,
 		"categoryName":  realEstate.CategoryName,
