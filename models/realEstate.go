@@ -27,7 +27,7 @@ type RealEstate struct {
 	IsActive      bool      `json:"isActive"`
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
-	DeletedAt     *time.Time `sql:"index"`
+	DeletedAt     *time.Time
 }
 
 type Contract struct {

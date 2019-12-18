@@ -11,7 +11,7 @@ func Routes() {
 	r := mux.NewRouter()
 	r.HandleFunc("/user", controller.CreateUser).Methods("POST")
 	r.HandleFunc("/user/{id}", IsLoggedin(controller.UpdateUser)).Methods("PUT")
-	r.HandleFunc("/user/profile/{id}", IsLoggedin(controller.Profile)).Methods("GET")
+	r.HandleFunc("/user/me/{id}", IsLoggedin(controller.Profile)).Methods("GET")
 	r.HandleFunc("/user/deactivate", IsLoggedin(controller.DeactivateUser)).Methods("POST")
 	r.HandleFunc("/user/login", controller.Login).Methods("POST")
 	r.HandleFunc("/user/logout", controller.Logout).Methods("DELETE")

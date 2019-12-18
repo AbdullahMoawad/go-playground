@@ -9,7 +9,7 @@ import (
 type User struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
-	DeletedAt    *time.Time `sql:"index"`
+	DeletedAt    *time.Time
 	Id           string     `json:"id"`
 	NickName     string     `json:"nickName"`
 	FirstName    string     `json:"firstName"`

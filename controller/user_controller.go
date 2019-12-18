@@ -13,6 +13,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	newUser := models.NewUser()
+
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
 		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
 		return
@@ -30,6 +31,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+
 	var user *models.User
 	id := common.GetId(r)
 
@@ -49,6 +51,8 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	var userLogin *services.UserLogin
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
 		json.NewEncoder(w).Encode(err)
@@ -70,6 +74,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	sessId := r.Header.Get("sessionId")
 	CloseSession(sessId)
 	json.NewEncoder(w).Encode("Logged out successfully ")
@@ -78,7 +84,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 func Profile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	user := models.User{}
+	var user models.User
 	id := common.GetId(r)
 
 	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(&user)
@@ -90,6 +96,8 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeactivateUser(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	var user models.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		json.NewEncoder(w).Encode(models.Logger(500, common.DecodingError, err))
