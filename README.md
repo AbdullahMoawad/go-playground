@@ -1,33 +1,36 @@
-# sql-queries
-- Circleci
-    - go vet
-    - go get
-    
-- Encryption
-- Sessions (crud)
-- Postgresql
-- Gorm
-- Realize Task Runner
+# real-estate
+#deps
+    - go 12 
+    - realize (https://github.com/oxequa/realize) task runner
+    - $ realize init
+    - $ realize start
+    - PostgreSQL (https://www.postgresql.org/)
+    - Postico or Pgmyadmin (PostgreSQL Client)
 
-- GorillaMux
-    - gorilla mux server
-- Rabbitmq (no't yet)
-- elasricSearch (no't yet)
-- redis (no't yet)
-- Ozzo Validation package (https://github.com/go-ozzo/ozzo-validation) (no't yet)
+Ozzo
 
-- Middleware
-    - isLoggedIn ( it helps to check if user is logged in and return a meaningfull error ) 
-- User Api
-   - Create
-   - Delete
-   - Update
-   - Profile
-   - Login
-   - Logout
-   - Deactivate
+     Validation package (https://github.com/go-ozzo/ozzo-validation)
+
+Uploader
+
+    upload post files , profile pictures
+    postman: form-data (profile) vaule (file)
     
-- Reinstatement
-   - Create
-   - Delete
-   - Update
+Middleware
+
+        it helps to check if user is logged in and return a meaningfull error 
+User Api
+
+    Create
+    Delete
+    Update
+    Profile
+    Login
+    Logout
+    Deactivate
+    
+Reinstatement
+
+    Create
+    Update
+    Delete

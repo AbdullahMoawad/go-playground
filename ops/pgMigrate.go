@@ -3,15 +3,14 @@ package ops
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/sql-queries/models"
-	"github.com/sql-queries/server"
 	"log"
+	"real-estate/models"
+	"real-estate/server"
 
 	"os"
 )
 
 var command = &cobra.Command{}
-
 var pgMigrate = &cobra.Command{
 	Use: "pg-migrate",
 	Run: func(cmd *cobra.Command, args []string) {

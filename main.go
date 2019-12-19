@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/sql-queries/ops"
-	setupRoutes "github.com/sql-queries/routes"
+	"real-estate/ops"
+	StartServer "real-estate/routes"
 )
 
 func main() {
-	setupRoutes.Routes()
+	StartServer.Routes()
 	ops.Execute()
 }

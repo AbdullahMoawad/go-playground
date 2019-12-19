@@ -2,14 +2,14 @@ package controller
 
 import (
 	"github.com/google/uuid"
-	"github.com/sql-queries/models"
-	serv "github.com/sql-queries/server"
+	"real-estate/models"
+	serv "real-estate/server"
 )
 
-func CreateSession(userId string) uuid.UUID {
+func CreateSession(userId string) string {
 	session := models.Session{}
 	session.UserId = userId
-	session.SessionId = uuid.New()
+	session.SessionId = uuid.New().String()
 	serv.Conn().Create(&session)
 	return session.SessionId
 }
@@ -19,4 +19,3 @@ func CloseSession(SessionId string) {
 	sessions := models.Session{}
 	serv.Conn().Model(&sessions).Where("session_id = ?", SessionId).Unscoped().Delete(&sessions)
 }
-

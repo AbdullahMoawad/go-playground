@@ -2,32 +2,23 @@ package routes
 
 import (
 	"encoding/json"
-	"github.com/sql-queries/models"
-	"github.com/sql-queries/server"
 	"net/http"
+	"real-estate/common"
+	_ "real-estate/controller"
+	"real-estate/models"
+	"real-estate/services"
 )
 
-func IsLoggedIn(f http.HandlerFunc) http.HandlerFunc {
+func IsLoggedin(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-
-		user := models.User{}
-		sessionId := r.Header.Get("sessionId")
+		sessionId := r.Header.Get("Sessionid")
 		if sessionId == "" {
-			msg := "Session Error"
-			json.NewEncoder(w).Encode(msg)
+			json.NewEncoder(w).Encode(models.Logger(401, common.Login, nil))
 			return
 		}
-		userSession := server.Conn().Model(&user).Where("session_id = ?", sessionId).First(&user)
-		if userSession.Error != nil {
-			msg := "Please Login"
-			json.NewEncoder(w).Encode(msg)
-			return
-		}
-
-		if user.SessionId == "00000000-0000-0000-0000-000000000000" {
-			msg := "Please login"
-			json.NewEncoder(w).Encode(msg)
+		session := services.IsSessionExist(sessionId)
+		if !session {
+			json.NewEncoder(w).Encode(models.Logger(401, common.SessionExpired, nil))
 			return
 		}
 		f(w, r)

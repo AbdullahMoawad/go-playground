@@ -2,39 +2,43 @@ package controller
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
-	"github.com/sql-queries/common"
-	"github.com/sql-queries/models"
-	serv "github.com/sql-queries/server"
-	"log"
 	"net/http"
+	"real-estate/common"
+	"real-estate/models"
+	serv "real-estate/server"
+	"real-estate/services"
 )
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+type UserController struct {}
+
+func (self UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	newUser := models.NewUser()
+
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
 		return
 	}
 
 	newUser.Password = common.HashPassword(newUser.Password)
-	if err := serv.Conn().Create(&newUser); err != nil {
-		json.NewEncoder(w).Encode(err)
+
+	if err := serv.Conn().Create(&newUser); err.Error != nil {
+		json.NewEncoder(w).Encode(models.Logger(500, "Error create user", err.Error))
 		return
 	}
-	if err := json.NewEncoder(w).Encode(newUser); err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
-	}
+
+	json.NewEncoder(w).Encode(&newUser)
 }
 
-func UpdateUser(w http.ResponseWriter, r *http.Request) {
+func (self UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+
 	var user *models.User
-	params := mux.Vars(r)
-	id := params["id"]
+	id := common.GetId(r)
+
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
 		return
 	}
 	if err := serv.Conn().Model(&user).Where("id = ?", id).Updates(map[string]interface{}{
@@ -48,10 +52,12 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
-	var userLogin *UserLogin
+func (self UserController) Login(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	var userLogin *services.UserLogin
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
-		json.NewEncoder(w).Encode(err)
+		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
 		return
 	}
 	err, user := userLogin.Format().ValidateLogin()
@@ -59,48 +65,45 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	user.SessionId = CreateSession(user.Id).String()
-	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{
-		"session_id": user.SessionId,
-	}); err != nil {
+	// set session id
+	user.SessionId = CreateSession(user.Id)
+
+	if err := serv.Conn().Model(&user).Where("email = ?", userLogin.Email).Updates(map[string]interface{}{"session_id": user.SessionId}); err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	if err := json.NewEncoder(w).Encode(user); err != nil {
-		log.Println(err)
-		return
-	}
+	json.NewEncoder(w).Encode(user)
 }
 
-func Logout(w http.ResponseWriter, r *http.Request) {
+func (self UserController) Logout(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	sessId := r.Header.Get("sessionId")
 	CloseSession(sessId)
 	json.NewEncoder(w).Encode("Logged out successfully ")
 }
 
-func Profile(w http.ResponseWriter, r *http.Request)  {
+func (self UserController) Profile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	var model *models.User
-	user := model
-	params := mux.Vars(r)
-	id := params["id"]
- 	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(user)
+
+	var user models.User
+	id := common.GetId(r)
+
+	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(&user)
 	if queryResult.Error != nil {
-		json.NewEncoder(w).Encode(queryResult.Error)
+		json.NewEncoder(w).Encode(models.Logger(404, common.ProfileError, queryResult.Error))
 		return
 	}
-	if err := json.NewEncoder(w).Encode(queryResult); err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
-	}
+	json.NewEncoder(w).Encode(queryResult)
 }
 
-func DeactivateUser(w http.ResponseWriter, r *http.Request) {
+func (self UserController) DeactivateUser(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 
-	var user *models.User
-
+	var user models.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		panic(err)
+		json.NewEncoder(w).Encode(models.Logger(500, common.DecodingError, err))
+		return
 	}
 
 	if err := serv.Conn().Model(&user).Where("email = ?", user.Email).Updates(map[string]interface{}{

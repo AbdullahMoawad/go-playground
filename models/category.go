@@ -1,11 +1,18 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type Category struct {
-	gorm.Model
-	CategoryName string
-	CategoryId   int
+	Id        int    `gorm:"unique_index ;AUTO_INCREMENT" json:"id"`
+	Name      string `json:"name"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time
+}
+
+func NewCategory() *Category {
+	var category Category
+	return &category
 }
