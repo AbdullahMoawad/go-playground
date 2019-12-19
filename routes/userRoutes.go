@@ -9,19 +9,23 @@ import (
 
 func Routes() {
 	r := mux.NewRouter()
-	r.HandleFunc("/user", controller.CreateUser).Methods("POST")
-	r.HandleFunc("/user/{id}", IsLoggedin(controller.UpdateUser)).Methods("PUT")
-	r.HandleFunc("/user/me/{id}", IsLoggedin(controller.Profile)).Methods("GET")
-	r.HandleFunc("/user/deactivate", IsLoggedin(controller.DeactivateUser)).Methods("POST")
-	r.HandleFunc("/user/login", controller.Login).Methods("POST")
-	r.HandleFunc("/user/logout", controller.Logout).Methods("DELETE")
+	userController := controller.UserController{}
+
+	r.HandleFunc("/user", userController.CreateUser).Methods("POST")
+	r.HandleFunc("/user/{id}", IsLoggedin(userController.UpdateUser)).Methods("PUT")
+	r.HandleFunc("/user/me/{id}", IsLoggedin(userController.Profile)).Methods("GET")
+	r.HandleFunc("/user/deactivate", IsLoggedin(userController.DeactivateUser)).Methods("POST")
+	r.HandleFunc("/user/login", userController.Login).Methods("POST")
+	r.HandleFunc("/user/logout", userController.Logout).Methods("DELETE")
 
 	//Real Estate Routes
-	r.HandleFunc("/estate", IsLoggedin(controller.CreateEstate)).Methods("POST")
-	r.HandleFunc("/estate/{id}", IsLoggedin(controller.UpdateEstate)).Methods("PUT")
-	r.HandleFunc("/estate/all", IsLoggedin(controller.ListEstates)).Methods("GET")
-	r.HandleFunc("/estate/one/{id}", IsLoggedin(controller.OneEstate)).Methods("GET")
-	r.HandleFunc("/estate/{id}", IsLoggedin(controller.DeleteEstate)).Methods("DELETE")
+
+	RealEstateController := controller.RealEstateController{}
+	r.HandleFunc("/estate", IsLoggedin(RealEstateController.CreateRealEstate)).Methods("POST")
+	r.HandleFunc("/estate/{id}", IsLoggedin(RealEstateController.UpdateRealEstate)).Methods("PUT")
+	r.HandleFunc("/estate/all", IsLoggedin(RealEstateController.ListRealEstate)).Methods("GET")
+	r.HandleFunc("/estate/one/{id}", IsLoggedin(RealEstateController.OneRealEstate)).Methods("GET")
+	r.HandleFunc("/estate/{id}", IsLoggedin(RealEstateController.DeleteRealEstate)).Methods("DELETE")
 
 	//Category Routes
 	r.HandleFunc("/category", IsLoggedin(controller.CreateCategory)).Methods("POST")

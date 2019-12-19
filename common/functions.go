@@ -20,6 +20,6 @@ func GetSessionId(r *http.Request) string {
 
 func GetCurrentUserIdFromHeaders(SessionID string) (error, string) {
 	session := models.Session{}
-	queryResult := server.Conn().Where(&models.Session{SessionId:SessionID}).First(&session)
+	queryResult := server.Conn().Where(&models.Session{SessionId: SessionID}).First(&session)
 	return queryResult.Error, session.UserId
 }

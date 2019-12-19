@@ -36,7 +36,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	file, _, err := r.FormFile(kind)
 	if err != nil {
 
-		json.NewEncoder(w ).Encode(models.Logger(404, "Error Retrieving the File", err))
+		json.NewEncoder(w).Encode(models.Logger(404, "Error Retrieving the File", err))
 		return
 	}
 	defer file.Close()

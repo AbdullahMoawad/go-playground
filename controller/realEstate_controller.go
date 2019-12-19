@@ -10,7 +10,9 @@ import (
 	"real-estate/services"
 )
 
-func CreateEstate(w http.ResponseWriter, r *http.Request) {
+type RealEstateController struct {}
+
+func (self RealEstateController) CreateRealEstate(w http.ResponseWriter, r *http.Request) {
 	newRealEstate := models.NewRealEstate()
 
 	if err := json.NewDecoder(r.Body).Decode(&newRealEstate); err != nil {
@@ -35,7 +37,7 @@ func CreateEstate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&newRealEstate)
 }
 
-func UpdateEstate(w http.ResponseWriter, r *http.Request) {
+func (self RealEstateController) UpdateRealEstate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var realEstate *models.RealEstate
 	id := common.GetId(r)
@@ -68,7 +70,7 @@ func UpdateEstate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ListEstates(w http.ResponseWriter, r *http.Request) {
+func (self RealEstateController) ListRealEstate(w http.ResponseWriter, r *http.Request) {
 	sessionId := common.GetSessionId(r)
 
 	err, userId := common.GetCurrentUserIdFromHeaders(sessionId)
@@ -86,7 +88,7 @@ func ListEstates(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(queryResult)
 }
 
-func OneEstate(w http.ResponseWriter, r *http.Request) {
+func (self RealEstateController) OneRealEstate(w http.ResponseWriter, r *http.Request) {
 	estateId := common.GetId(r)
 	var estates []models.RealEstate
 	queryResult := serv.Conn().Where("id = ?", estateId).First(&estates)
@@ -97,7 +99,7 @@ func OneEstate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(queryResult)
 }
 
-func DeleteEstate(w http.ResponseWriter, r *http.Request) {
+func (self RealEstateController) DeleteRealEstate(w http.ResponseWriter, r *http.Request) {
 	estateId := common.GetId(r)
 	var estates []models.RealEstate
 	// unscoped to permanently delete record from database
