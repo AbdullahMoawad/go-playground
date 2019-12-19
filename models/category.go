@@ -9,7 +9,7 @@ type Category struct {
 	Name      string `json:"name"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt *time.Time `sql:"index"`
+	DeletedAt *time.Time
 }
 
 func NewCategory() *Category {

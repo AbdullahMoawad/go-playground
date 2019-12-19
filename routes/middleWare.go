@@ -13,7 +13,7 @@ func IsLoggedin(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		sessionId := r.Header.Get("Sessionid")
 		if sessionId == "" {
-			 json.NewEncoder(w).Encode(models.Logger(401, common.Login, nil))
+			json.NewEncoder(w).Encode(models.Logger(401, common.Login, nil))
 			return
 		}
 		session := services.IsSessionExist(sessionId)

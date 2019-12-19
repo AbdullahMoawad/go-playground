@@ -6,7 +6,7 @@ import (
 	"real-estate/server"
 )
 
-func FindAllEstates(userId string)  *gorm.DB{
+func FindAllEstates(userId string) *gorm.DB {
 	var estates []models.RealEstate
 	queryResult := server.Conn().Where("user_id = ?", userId).Find(&estates)
 	return queryResult
