@@ -10,6 +10,8 @@ import (
 )
 
 func CreateCategory(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	category := models.NewCategory()
 	if err := json.NewDecoder(r.Body).Decode(&category); err != nil {
 		json.NewEncoder(w).Encode(models.Logger(500, common.DecodingError, err))
@@ -28,6 +30,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListCategories(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 
 	var category []models.Category
 	queryResult := serv.Conn().Find(&category)
@@ -39,6 +42,8 @@ func ListCategories(w http.ResponseWriter, r *http.Request) {
 }
 
 func OneCategory(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	id := common.GetId(r)
 	var category []models.Category
 	queryResult := serv.Conn().Where("id = ?", id).First(&category)
@@ -50,6 +55,8 @@ func OneCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteCategory(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	categoryId := common.GetId(r)
 	var category []models.Category
 	// unscoped to permanently delete record from database

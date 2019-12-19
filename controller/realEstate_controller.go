@@ -13,6 +13,8 @@ import (
 type RealEstateController struct {}
 
 func (self RealEstateController) CreateRealEstate(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	newRealEstate := models.NewRealEstate()
 
 	if err := json.NewDecoder(r.Body).Decode(&newRealEstate); err != nil {
@@ -39,6 +41,7 @@ func (self RealEstateController) CreateRealEstate(w http.ResponseWriter, r *http
 
 func (self RealEstateController) UpdateRealEstate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+
 	var realEstate *models.RealEstate
 	id := common.GetId(r)
 
@@ -71,6 +74,8 @@ func (self RealEstateController) UpdateRealEstate(w http.ResponseWriter, r *http
 }
 
 func (self RealEstateController) ListRealEstate(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	sessionId := common.GetSessionId(r)
 
 	err, userId := common.GetCurrentUserIdFromHeaders(sessionId)
@@ -89,6 +94,8 @@ func (self RealEstateController) ListRealEstate(w http.ResponseWriter, r *http.R
 }
 
 func (self RealEstateController) OneRealEstate(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	estateId := common.GetId(r)
 	var estates []models.RealEstate
 	queryResult := serv.Conn().Where("id = ?", estateId).First(&estates)
@@ -100,6 +107,8 @@ func (self RealEstateController) OneRealEstate(w http.ResponseWriter, r *http.Re
 }
 
 func (self RealEstateController) DeleteRealEstate(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
 	estateId := common.GetId(r)
 	var estates []models.RealEstate
 	// unscoped to permanently delete record from database
