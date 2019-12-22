@@ -28,13 +28,15 @@ func Routes() {
 	r.HandleFunc("/estate/{id}", IsLoggedin(RealEstateController.DeleteRealEstate)).Methods("DELETE")
 
 	//Category Routes
-	r.HandleFunc("/category", IsLoggedin(controller.CreateCategory)).Methods("POST")
-	r.HandleFunc("/category/all", IsLoggedin(controller.ListCategories)).Methods("GET")
-	r.HandleFunc("/category/{id}", IsLoggedin(controller.OneCategory)).Methods("GET")
-	r.HandleFunc("/category/{id}", IsLoggedin(controller.DeleteCategory)).Methods("DELETE")
+
+	CategoryController := controller.CategoryController{}
+	r.HandleFunc("/category", IsLoggedin(CategoryController.CreateCategory)).Methods("POST")
+	r.HandleFunc("/category/all", IsLoggedin(CategoryController.ListCategories)).Methods("GET")
+	r.HandleFunc("/category/{id}", IsLoggedin(CategoryController.OneCategory)).Methods("GET")
+	r.HandleFunc("/category/{id}", IsLoggedin(CategoryController.DeleteCategory)).Methods("DELETE")
 
 	// Upload file
 	r.HandleFunc("/upload", IsLoggedin(uploader.UploadFile)).Methods("POST")
 
-	http.ListenAndServe(":8000", r)
+	http.ListenAndServe(":8081", r)
 }

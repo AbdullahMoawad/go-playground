@@ -9,7 +9,9 @@ import (
 	"real-estate/services"
 )
 
-func CreateCategory(w http.ResponseWriter, r *http.Request) {
+type CategoryController struct{}
+
+func (self CategoryController) CreateCategory(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	category := models.NewCategory()
@@ -29,7 +31,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&category)
 }
 
-func ListCategories(w http.ResponseWriter, r *http.Request) {
+func (self CategoryController) ListCategories(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var category []models.Category
@@ -41,7 +43,7 @@ func ListCategories(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(queryResult)
 }
 
-func OneCategory(w http.ResponseWriter, r *http.Request) {
+func (self CategoryController) OneCategory(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	id := common.GetId(r)
@@ -54,7 +56,7 @@ func OneCategory(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(queryResult)
 }
 
-func DeleteCategory(w http.ResponseWriter, r *http.Request) {
+func (self CategoryController) DeleteCategory(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	categoryId := common.GetId(r)

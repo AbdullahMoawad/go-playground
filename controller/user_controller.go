@@ -9,7 +9,7 @@ import (
 	"real-estate/services"
 )
 
-type UserController struct {}
+type UserController struct{}
 
 func (self UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()

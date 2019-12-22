@@ -10,7 +10,7 @@ import (
 	"real-estate/services"
 )
 
-type RealEstateController struct {}
+type RealEstateController struct{}
 
 func (self RealEstateController) CreateRealEstate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
