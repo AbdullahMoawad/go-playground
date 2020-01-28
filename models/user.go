@@ -31,3 +31,10 @@ func NewUser() *User {
 	user.IsAdmin = false
 	return &user
 }
+//func FormatUser(user *User) *User {
+//	user.PasswordResetToken = ""
+//	user.EmailVerificationToken = ""
+//	user.Password = ""
+//	user.OldPasswords = []string{}
+//	return user
+//}

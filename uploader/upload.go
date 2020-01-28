@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"net/textproto"
 	"os"
+	"real-estate/App"
 	"real-estate/common"
-	"real-estate/models"
 )
 
 type image struct {
@@ -36,7 +36,8 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	file, _, err := r.FormFile(kind)
 	if err != nil {
 
-		json.NewEncoder(w).Encode(models.Logger(404, "Error Retrieving the File", err))
+		App.JsonLogger(w, 404, "Error Retrieving the File", err)
+		App.Logger("Error Retrieving the File", "error")
 		return
 	}
 	defer file.Close()
@@ -71,7 +72,9 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	tempFile, err := ioutil.TempFile(dir, "upload-*.png")
 	if err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, " ", err))
+
+		App.JsonLogger(w, 500, "", err)
+		App.Logger("", "error")
 		return
 	}
 	defer tempFile.Close()
@@ -80,12 +83,14 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, "can't read file ", err))
+		App.JsonLogger(w, 500, "can't read file", err)
+		App.Logger("can't read file", "error")
 		return
 	}
 	// check if the file you gonna upload is image or no't
 	if !filetype.IsImage(fileBytes) {
-		json.NewEncoder(w).Encode(models.Logger(406, "this file isn't an image (no't accepted)", nil))
+		App.JsonLogger(w, 406, "this file isn't an image (no't accepted ", nil)
+		App.Logger("this file isn't an image (no't accepted", "error")
 		return
 	}
 

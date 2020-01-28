@@ -16,7 +16,8 @@ func Routes() {
 	r.HandleFunc("/user/me/{id}", IsLoggedin(userController.Profile)).Methods("GET")
 	r.HandleFunc("/user/deactivate", IsLoggedin(userController.DeactivateUser)).Methods("POST")
 	r.HandleFunc("/user/login", userController.Login).Methods("POST")
-	r.HandleFunc("/user/logout", userController.Logout).Methods("DELETE")
+	//@todo use http.MethodX
+	r.HandleFunc("/user/logout", userController.Logout).Methods(http.MethodDelete)
 
 	//Real Estate Routes
 
@@ -38,5 +39,5 @@ func Routes() {
 	// Upload file
 	r.HandleFunc("/upload", IsLoggedin(uploader.UploadFile)).Methods("POST")
 
-	http.ListenAndServe(":8081", r)
+	http.ListenAndServe(":8000", r)
 }
