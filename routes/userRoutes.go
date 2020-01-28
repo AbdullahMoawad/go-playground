@@ -16,7 +16,8 @@ func Routes() {
 	r.HandleFunc("/user/me/{id}", IsLoggedin(userController.Profile)).Methods("GET")
 	r.HandleFunc("/user/deactivate", IsLoggedin(userController.DeactivateUser)).Methods("POST")
 	r.HandleFunc("/user/login", userController.Login).Methods("POST")
-	r.HandleFunc("/user/logout", userController.Logout).Methods("DELETE")
+	//@todo use http.MethodX
+	r.HandleFunc("/user/logout", userController.Logout).Methods(http.MethodDelete)
 
 	//Real Estate Routes
 
@@ -28,10 +29,12 @@ func Routes() {
 	r.HandleFunc("/estate/{id}", IsLoggedin(RealEstateController.DeleteRealEstate)).Methods("DELETE")
 
 	//Category Routes
-	r.HandleFunc("/category", IsLoggedin(controller.CreateCategory)).Methods("POST")
-	r.HandleFunc("/category/all", IsLoggedin(controller.ListCategories)).Methods("GET")
-	r.HandleFunc("/category/{id}", IsLoggedin(controller.OneCategory)).Methods("GET")
-	r.HandleFunc("/category/{id}", IsLoggedin(controller.DeleteCategory)).Methods("DELETE")
+
+	CategoryController := controller.CategoryController{}
+	r.HandleFunc("/category", IsLoggedin(CategoryController.CreateCategory)).Methods("POST")
+	r.HandleFunc("/category/all", IsLoggedin(CategoryController.ListCategories)).Methods("GET")
+	r.HandleFunc("/category/{id}", IsLoggedin(CategoryController.OneCategory)).Methods("GET")
+	r.HandleFunc("/category/{id}", IsLoggedin(CategoryController.DeleteCategory)).Methods("DELETE")
 
 	// Upload file
 	r.HandleFunc("/upload", IsLoggedin(uploader.UploadFile)).Methods("POST")

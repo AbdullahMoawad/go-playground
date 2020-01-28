@@ -9,7 +9,9 @@
 
 Ozzo
 
-     Validation package (https://github.com/go-ozzo/ozzo-validation)
+     Validation packages
+      https://github.com/go-ozzo/ozzo-validation
+      https://itnext.io/validating-struct-map-form-in-go-language-1f819b8596c7
 
 Uploader
 

@@ -2,14 +2,17 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"real-estate/App"
 	"real-estate/common"
 	"real-estate/models"
 	serv "real-estate/server"
 	"real-estate/services"
+	"reflect"
 )
 
-type UserController struct {}
+type UserController struct{}
 
 func (self UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
@@ -17,18 +20,25 @@ func (self UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	newUser := models.NewUser()
 
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
+
+		App.JsonLogger(w, 500, common.DecodingError, err)
+		App.Logger(common.DecodingError, "error")
 		return
 	}
 
 	newUser.Password = common.HashPassword(newUser.Password)
 
 	if err := serv.Conn().Create(&newUser); err.Error != nil {
-		json.NewEncoder(w).Encode(models.Logger(500, "Error create user", err.Error))
+
+		zap := reflect.ValueOf(err.Error)
+		fmt.Println(zap,"--=-=-=---")
+
+		App.JsonLogger(w, 500, "Error creating user", zap)
+		App.Logger("Error creating user", "error")
 		return
 	}
 
-	json.NewEncoder(w).Encode(&newUser)
+	App.Json(w, newUser, common.StatusOK)
 }
 
 func (self UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +48,8 @@ func (self UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	id := common.GetId(r)
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
+		App.JsonLogger(w, 500, common.DecodingError, err)
+		App.Logger(common.DecodingError, "error")
 		return
 	}
 	if err := serv.Conn().Model(&user).Where("id = ?", id).Updates(map[string]interface{}{
@@ -57,7 +68,8 @@ func (self UserController) Login(w http.ResponseWriter, r *http.Request) {
 
 	var userLogin *services.UserLogin
 	if err := json.NewDecoder(r.Body).Decode(&userLogin); err != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, common.DecodingError, err))
+		App.JsonLogger(w, 500, common.DecodingError, err)
+		App.Logger(common.DecodingError, "error")
 		return
 	}
 	err, user := userLogin.Format().ValidateLogin()
@@ -91,7 +103,8 @@ func (self UserController) Profile(w http.ResponseWriter, r *http.Request) {
 
 	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(&user)
 	if queryResult.Error != nil {
-		json.NewEncoder(w).Encode(models.Logger(404, common.ProfileError, queryResult.Error))
+		App.JsonLogger(w, 500, common.ProfileError, queryResult)
+		App.Logger(common.ProfileError, "error")
 		return
 	}
 	json.NewEncoder(w).Encode(queryResult)
@@ -102,7 +115,8 @@ func (self UserController) DeactivateUser(w http.ResponseWriter, r *http.Request
 
 	var user models.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		json.NewEncoder(w).Encode(models.Logger(500, common.DecodingError, err))
+		App.JsonLogger(w, 500, common.DecodingError, err)
+		App.Logger(common.DecodingError, "error")
 		return
 	}
 
@@ -110,10 +124,13 @@ func (self UserController) DeactivateUser(w http.ResponseWriter, r *http.Request
 		"email":    user.Email,
 		"password": user.Password,
 		"isActive": false}); err != nil {
-		json.NewEncoder(w).Encode(err)
+		App.JsonLogger(w, 500, "error while deactivating user", err)
+		App.Logger("error while deactivating user", "error")
 		return
 	}
 	if err := json.NewEncoder(w).Encode(user); err != nil {
 		panic(err)
 	}
 }
+
+

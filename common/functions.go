@@ -7,6 +7,8 @@ import (
 	"real-estate/server"
 )
 
+
+
 func GetId(r *http.Request) string {
 	params := mux.Vars(r)
 	id := params["id"]
