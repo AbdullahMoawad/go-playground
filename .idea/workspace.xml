@@ -2,7 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="affa3703-bf76-4de7-af0b-2ef84afd3819" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/controller/property_controller.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requests/property_requests.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requests/user_requests.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/category_routes.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/realestate_routes.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/routes.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/user_routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/error_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/App/error_message.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/constants.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/functions.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/functions.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/category_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/category_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/realEstate_controller.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/realestate_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/realestate_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/category_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/category_services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/realEstate.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/property.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ops/pgMigrate.go" beforeDir="false" afterPath="$PROJECT_DIR$/ops/pgMigrate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/middleWare.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/middleWare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/userRoutes.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/realestate_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/property_services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploader/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/uploader/upload.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,5 +90,11 @@
         </serviceView>
       </list>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="440" y="190" key="#GOROOT" timestamp="1580645925595">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="440" y="190" key="#GOROOT/0.0.1680.1050@0.0.1680.1050" timestamp="1580645925595" />
   </component>
 </project>

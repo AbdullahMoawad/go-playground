@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type RealEstate struct {
+type Property struct {
 	UserId        string    `json:"userId"`
 	Id            uuid.UUID `gorm:"primary_key" json:"id"`
 	Type          string    `json:"type"`
@@ -33,9 +33,4 @@ type RealEstate struct {
 type Contract struct {
 	Owner           string
 	DateOfSignature string
-}
-
-func NewRealEstate() *RealEstate {
-	var realEstate RealEstate
-	return &realEstate
 }

@@ -4,13 +4,13 @@ import (
 	"real-estate/server"
 )
 
-func (self *Category)FindCategoryByName (name string) *Category {
+func (self *Category) FindCategoryByName(name string) *Category {
 	newCategory := &Category{}
 	queryResult := server.Conn().Where(&Category{Name: name}).Find(&newCategory)
 	if queryResult.Error != nil {
 		return nil
 	}
-		return newCategory
+	return newCategory
 }
 
 func (self *Category) IsCategoryExist(name string) bool {

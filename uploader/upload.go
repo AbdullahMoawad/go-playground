@@ -13,6 +13,10 @@ import (
 	"real-estate/common"
 )
 
+type UploadController struct {
+	App.Controller
+}
+
 type image struct {
 	name string
 	size int64
@@ -23,7 +27,7 @@ type image struct {
 	headers  textproto.MIMEHeader
 }
 
-func UploadFile(w http.ResponseWriter, r *http.Request) {
+func (self *UploadController)UploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("File Upload Endpoint Hit")
 	kind := r.Header.Get("kind")
 
@@ -36,8 +40,8 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	file, _, err := r.FormFile(kind)
 	if err != nil {
 
-		App.JsonLogger(w, 404, "Error Retrieving the File", err)
-		App.Logger("Error Retrieving the File", "error")
+		self.JsonLogger(w, 404, "Error Retrieving the File", err)
+		self.Logger("Error Retrieving the File", "error")
 		return
 	}
 	defer file.Close()
@@ -73,8 +77,8 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 	tempFile, err := ioutil.TempFile(dir, "upload-*.png")
 	if err != nil {
 
-		App.JsonLogger(w, 500, "", err)
-		App.Logger("", "error")
+		self.JsonLogger(w, 500, "", err)
+		self.Logger("", "error")
 		return
 	}
 	defer tempFile.Close()
@@ -83,14 +87,14 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		App.JsonLogger(w, 500, "can't read file", err)
-		App.Logger("can't read file", "error")
+		self.JsonLogger(w, 500, "can't read file", err)
+		self.Logger("can't read file", "error")
 		return
 	}
 	// check if the file you gonna upload is image or no't
 	if !filetype.IsImage(fileBytes) {
-		App.JsonLogger(w, 406, "this file isn't an image (no't accepted ", nil)
-		App.Logger("this file isn't an image (no't accepted", "error")
+		self.JsonLogger(w, 406, "this file isn't an image (no't accepted ", nil)
+		self.Logger("this file isn't an image (no't accepted", "error")
 		return
 	}
 
