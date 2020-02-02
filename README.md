@@ -1,38 +1,15 @@
-# real-estate
-#deps
-    - go 12 
-    - realize (https://github.com/oxequa/realize) task runner
-    - $ realize init
-    - $ realize start
-    - PostgreSQL (https://www.postgresql.org/)
-    - Postico or Pgmyadmin (PostgreSQL Client)
+https://github.com/go-ozzo/ozzo-validation
 
-Ozzo
+https://github.com/spf13/cobra
 
-     Validation packages
-      https://github.com/go-ozzo/ozzo-validation
-      https://itnext.io/validating-struct-map-form-in-go-language-1f819b8596c7
+https://github.com/oxequa/realize
 
-Uploader
+https://www.google.com/search?q=gorm+github&oq=gorm+github&aqs=chrome..69i57j0l6j69i60.3997j0j4&sourceid=chrome&ie=UTF-8
 
-    upload post files , profile pictures
-    postman: form-data (profile) vaule (file)
-    
-Middleware
+https://learning.oreilly.com/library/view/go-in-action/9781617291784/
 
-        it helps to check if user is logged in and return a meaningfull error 
-User Api
+https://www.amazon.co.uk/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
 
-    Create
-    Delete
-    Update
-    Profile
-    Login
-    Logout
-    Deactivate
-    
-Reinstatement
+https://golangbot.com/learn-golang-series/
 
-    Create
-    Update
-    Delete
+https://www.rabbitmq.com/getstarted.html
