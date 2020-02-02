@@ -22,7 +22,7 @@ var pgMigrate = &cobra.Command{
 		case "user":
 			server.Conn().AutoMigrate(&models.User{})
 		case "estate":
-			server.Conn().AutoMigrate(&models.RealEstate{})
+			server.Conn().AutoMigrate(&models.Property{})
 		case "session":
 			server.Conn().AutoMigrate(&models.Session{})
 		case "category":

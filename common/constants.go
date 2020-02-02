@@ -10,7 +10,7 @@ const (
 	DecodingError                         = "Error while decoding request body"
 	ErrorMessageFailedToDecodeListRequest = "failed to decode list request"
 
-	ProfileError         = "Error while getting profile data"
+	ProfileError = "Error while getting profile data"
 )
 const (
 	StatusContinue           = 100 // RFC 7231, 6.2.1
