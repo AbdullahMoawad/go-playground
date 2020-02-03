@@ -24,17 +24,11 @@ type User struct {
 	IsActive     bool   `json:"isActive"`
 }
 
-func NewUser() *User {
+func NewUser() User {
 	var user User
 	user.Id = uuid.New().String()
 	user.IsActive = true
 	user.IsAdmin = false
-	return &user
+	return user
 }
-//func FormatUser(user *User) *User {
-//	user.PasswordResetToken = ""
-//	user.EmailVerificationToken = ""
-//	user.Password = ""
-//	user.OldPasswords = []string{}
-//	return user
-//}
+

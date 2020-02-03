@@ -3,11 +3,12 @@ package routes
 import (
 	"net/http"
 	"real-estate/App"
+	"real-estate/common"
 	_ "real-estate/controller"
 	"real-estate/services"
 )
 
-type Controller struct {
+type MiddlewareController struct {
 	App.Controller
 }
 
@@ -17,14 +18,13 @@ func IsLogged(f http.HandlerFunc) http.HandlerFunc {
 		//@todo trim space
 		//@check postgresql join
 		if sessionId == "" {
-			//App.JsonLogger(w, 403, common.Login, nil)
-			//self.Logger(common.Login, sessionId)
+			App.Logger(common.Login, sessionId)
 			return
 		}
 		session := services.IsSessionExist(sessionId)
 		if !session {
-			//self.JsonLogger(w, 440, common.SessionExpired, nil)
-			//self.Logger(common.SessionExpired, "error")
+			App.Logger(common.SessionExpired, "error")
+
 			return
 		}
 		f(w, r)

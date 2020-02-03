@@ -7,7 +7,6 @@ import (
 	"real-estate/App"
 	"real-estate/common"
 	"real-estate/models"
-	"real-estate/requests"
 	serv "real-estate/server"
 	"real-estate/services"
 )
@@ -19,7 +18,7 @@ type PropertyController struct {
 func (self PropertyController) Create(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	newProperty := requests.NewPropertyRequest()
+	newProperty := models.Property{}
 
 	if err := json.NewDecoder(r.Body).Decode(&newProperty); err != nil {
 		self.JsonLogger(w, common.StatusBadRequest, common.ErrorMessageFailedToDecodeListRequest, err)

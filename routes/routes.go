@@ -15,7 +15,7 @@ func Routes() {
 	r.HandleFunc("/user", user.Create).Methods("POST")
 	r.HandleFunc("/user/{id}", IsLogged(user.Update)).Methods("PUT")
 	r.HandleFunc("/user/me/{id}", IsLogged(user.Profile)).Methods("GET")
-	r.HandleFunc("/user/deactivate", IsLogged(user.Deactivate)).Methods("POST")
+	r.HandleFunc("/user/deactivate/{id}", IsLogged(user.Deactivate)).Methods("POST")
 	r.HandleFunc("/user/login", user.Login).Methods("POST")
 	r.HandleFunc("/user/logout", user.Logout).Methods("DELETE")
 
