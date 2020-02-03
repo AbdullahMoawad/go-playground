@@ -10,8 +10,8 @@ import (
 
 func SendSms(msg ,from ,to string) {
 	// Set account keys & information
-	accountSid := "AC83d1b8fc38cb6e08a781824602458ef3"
-	authToken := "be199f4ac960d609fc2d65443b30e0fa"
+	accountSid := "xxxx"
+	authToken := "xxxx"
 	urlStr := "https://api.twilio.com/2010-04-01/Accounts/" + accountSid + "/Messages.json"
 
 	// Create possible message bodies
