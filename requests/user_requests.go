@@ -5,12 +5,9 @@ import (
 	"real-estate/models"
 )
 
-type UserRequest struct {
-	models.User
-}
 
-func NewUserRequest() *UserRequest {
-	var user UserRequest
+func NewUserRequest() *models.User {
+	var user models.User
 	user.Id = uuid.New().String()
 	user.IsActive = true
 	user.IsAdmin = false
