@@ -2,14 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="affa3703-bf76-4de7-af0b-2ef84afd3819" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sms/sms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requests/user_requests.go" beforeDir="false" afterPath="$PROJECT_DIR$/requests/user_requests.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="GOROOT" path="/usr/local/Cellar/go/1.13.4/libexec" />
+  <component name="GOROOT" path="/usr/local/Cellar/go/1.13.5/libexec" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -69,9 +73,9 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="440" y="190" key="#GOROOT" timestamp="1580645925595">
+    <state x="440" y="190" key="#GOROOT" timestamp="1580721569295">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="440" y="190" key="#GOROOT/0.0.1680.1050@0.0.1680.1050" timestamp="1580645925595" />
+    <state x="440" y="190" key="#GOROOT/0.0.1680.1050@0.0.1680.1050" timestamp="1580721569295" />
   </component>
 </project>

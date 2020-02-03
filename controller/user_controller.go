@@ -9,6 +9,7 @@ import (
 	"real-estate/requests"
 	serv "real-estate/server"
 	"real-estate/services"
+	"real-estate/sms"
 )
 
 type UserController struct {
@@ -17,7 +18,7 @@ type UserController struct {
 
 func (self UserController) Create(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	newUser := requests.NewUserRequest()
+	newUser := models.NewUser()
 
 	if err := json.NewDecoder(r.Body).Decode(&newUser); err != nil {
 		self.JsonLogger(w, 500, common.DecodingError, err)
@@ -31,6 +32,7 @@ func (self UserController) Create(w http.ResponseWriter, r *http.Request) {
 		self.Logger("Error creating user", "error")
 		return
 	}
+	sms.SendSms("welcome to our web site welcome message test :)","13393371991",newUser.PhoneNumber)
 	self.Json(w, newUser, common.StatusOK)
 }
 
