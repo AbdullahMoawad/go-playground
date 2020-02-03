@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"real-estate/common"
 	"real-estate/models"
 	"real-estate/server"
@@ -57,6 +58,18 @@ func (self *User) FindByEmail(mail string) (error, *User) {
 		return queryResult.Error, nil
 	} else {
 		return nil, newUser
+	}
+}
+
+func FindById(id string) (error, string) {
+	newUser := &User{}
+
+	queryResult := server.Conn().Model(&newUser).Where(&User{Id: id}).First(&newUser)
+	fmt.Println(queryResult,"---")
+	if queryResult.Error != nil {
+		return queryResult.Error, ""
+	} else {
+		return nil, newUser.Password
 	}
 }
 

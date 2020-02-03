@@ -54,3 +54,21 @@ func (self Controller) Logger(msg, errType string) *zap.Logger {
 
 	}
 }
+
+func Logger(msg, errType string) *zap.Logger {
+	log, _ := zap.NewDevelopment()
+	//@todo use switch
+
+	switch errType {
+	case "debug":
+		log.Debug(msg)
+		return log
+	case "info":
+		log.Info(msg)
+		return log
+	default:
+		log.Error(msg)
+		return log
+
+	}
+}

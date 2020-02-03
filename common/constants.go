@@ -2,8 +2,10 @@ package common
 
 const (
 	LoginFailed                           = "Error login, Wrong email or password "
+	WorngPassword                         = "Wrong email or password "
 	EmptyLoginFields                      = "Please insert email and password to login "
-	UserNotFound                          = "Error login, user doesn't exist "
+	UserNotFound                          = "user doesn't exist "
+	EmptyUserId                           = "empty user id"
 	SessionExpired                        = "Please login,session expired "
 	Login                                 = "Please Login First"
 	CategoryAlreadyExist                  = "Category with same name already exist"
