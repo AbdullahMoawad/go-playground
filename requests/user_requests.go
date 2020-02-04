@@ -7,4 +7,3 @@ import (
 type NewUser struct {
 	models.User
 }
-

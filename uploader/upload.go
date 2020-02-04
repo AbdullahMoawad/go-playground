@@ -27,7 +27,7 @@ type image struct {
 	headers  textproto.MIMEHeader
 }
 
-func (self *UploadController)UploadFile(w http.ResponseWriter, r *http.Request) {
+func (self *UploadController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("File Upload Endpoint Hit")
 	kind := r.Header.Get("kind")
 

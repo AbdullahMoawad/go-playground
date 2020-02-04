@@ -9,6 +9,7 @@ require (
 	github.com/gorilla/mux v1.7.3
 	github.com/h2non/filetype v1.0.10
 	github.com/jinzhu/gorm v1.9.10
+	github.com/pelletier/go-toml v1.2.0
 	github.com/spf13/cobra v0.0.5
 	go.uber.org/zap v1.13.0
 	golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7

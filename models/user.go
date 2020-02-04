@@ -31,4 +31,3 @@ func NewUser() User {
 	user.IsAdmin = false
 	return user
 }
-

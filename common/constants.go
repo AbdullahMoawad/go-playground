@@ -4,6 +4,7 @@ const (
 	LoginFailed                           = "Error login, Wrong email or password "
 	WorngPassword                         = "Wrong email or password "
 	EmptyLoginFields                      = "Please insert email and password to login "
+	NotActiveUser                         = "Sorry user is deactivated, activate first "
 	UserNotFound                          = "user doesn't exist "
 	EmptyUserId                           = "empty user id"
 	SessionExpired                        = "Please login,session expired "

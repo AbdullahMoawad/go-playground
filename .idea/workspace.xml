@@ -3,7 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="affa3703-bf76-4de7-af0b-2ef84afd3819" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/constants.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requests/user_requests.go" beforeDir="false" afterPath="$PROJECT_DIR$/requests/user_requests.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/middleWare.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/middleWare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/user_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/user_services.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sms/sms.go" beforeDir="false" afterPath="$PROJECT_DIR$/sms/sms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploader/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/uploader/upload.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +36,7 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -69,6 +78,9 @@
       </list>
     </option>
   </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
   <component name="WindowStateProjectService">
     <state x="440" y="190" key="#GOROOT" timestamp="1580721569295">
       <screen x="0" y="0" width="1680" height="1050" />
@@ -82,5 +94,13 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="547" y="239" width="921" height="572" key="MultipleFileMergeDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1580721754285" />
+    <state x="341" y="164" key="SettingsEditor" timestamp="1580737022887">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="341" y="164" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1580737022887" />
+    <state x="488" y="271" width="703" height="508" key="find.popup" timestamp="1580807606208">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="488" y="271" width="703" height="508" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580807606208" />
   </component>
 </project>

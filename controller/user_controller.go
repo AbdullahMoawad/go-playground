@@ -32,7 +32,7 @@ func (self UserController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sms.SendSms("welcome to our web site welcome message test :)","13393371991",newUser.PhoneNumber)
+	sms.SendSms("welcome to our web site welcome message test :)", "13393371991", newUser.PhoneNumber)
 	self.Json(w, newUser, common.StatusOK)
 }
 
@@ -70,6 +70,7 @@ func (self UserController) Login(w http.ResponseWriter, r *http.Request) {
 		self.Logger(common.DecodingError, "error")
 		return
 	}
+
 	err, user := userLogin.Format().ValidateLogin()
 	if err != "" {
 		self.Json(w, err, common.StatusOK)
@@ -96,9 +97,9 @@ func (self UserController) Profile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var user models.User
-	id := common.GetId(r)
+	userId := common.GetId(r)
 
-	queryResult := serv.Conn().Model(&user).Where("id = ?", id).First(&user)
+	queryResult := serv.Conn().Model(&user).Where("id = ?", userId).First(&user)
 	if queryResult.Error != nil {
 		self.JsonLogger(w, 500, common.ProfileError, queryResult)
 		self.Logger(common.ProfileError, "error")
@@ -111,6 +112,8 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var user *models.User
+	var session models.Session
+	tx := serv.Conn().Begin()
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		self.JsonLogger(w, 500, common.DecodingError, err)
@@ -119,30 +122,39 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userId := common.GetId(r)
-	if userId == ""{
-		self.JsonLogger(w, 500, common.EmptyUserId, nil)
+	if userId == "" {
+		self.JsonLogger(w, 400, common.EmptyUserId, nil)
 		self.Logger(common.EmptyUserId, "error")
 		return
 	}
 
 	err, userPassword := services.FindById(userId)
 	if err != nil {
-		self.JsonLogger(w, 500, common.UserNotFound, err)
+		self.JsonLogger(w, 400, common.UserNotFound, err)
 		self.Logger(common.UserNotFound, "error")
 		return
 	}
 
-	if !common.CheckPasswordHash(user.Password,userPassword){
-		self.JsonLogger(w, 500,  common.WorngPassword, err)
+	if !common.CheckPasswordHash(user.Password, userPassword) {
+		self.JsonLogger(w, 400, common.WorngPassword, err)
 		self.Logger(common.WorngPassword, "error")
 		return
 	}
 
-	if err := serv.Conn().Model(&user).Where("id = ?", userId).Updates(map[string]interface{}{
+	if err := tx.Model(&user).Where("id = ?", userId).Updates(map[string]interface{}{
 		"isActive": false}); err.Error != nil {
-		self.JsonLogger(w, 500, "error while deactivating user", err.Error)
+		tx.Rollback()
+		self.JsonLogger(w, 400, "error while deactivating user", err.Error)
 		self.Logger("error while deactivating user", "error")
 		return
 	}
-	self.Json(w, user, common.StatusOK)
+
+	if err := tx.Where("user_idd = ?",userId ).Unscoped().Delete(&session); err.Error != nil {
+		tx.Rollback()
+		self.JsonLogger(w, 400, "error while deleting session", err.Error)
+		self.Logger(" error while deleting session", "error")
+	}
+	tx.Commit()
+
+	self.Json(w, "user deactivated successfully", common.StatusOK)
 }

@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"real-estate/common"
 	"real-estate/models"
 	"real-estate/server"
@@ -42,7 +41,7 @@ func (self *UserLogin) ValidateLogin() (string, *User) {
 			return common.LoginFailed, nil
 		}
 		if user.IsActive == false {
-			return common.EmptyLoginFields, nil
+			return common.NotActiveUser, nil
 		}
 	} else {
 		return common.UserNotFound, nil
@@ -63,23 +62,11 @@ func (self *User) FindByEmail(mail string) (error, *User) {
 
 func FindById(id string) (error, string) {
 	newUser := &User{}
-
 	queryResult := server.Conn().Model(&newUser).Where(&User{Id: id}).First(&newUser)
-	fmt.Println(queryResult,"---")
 	if queryResult.Error != nil {
-		return queryResult.Error, ""
+		return queryResult.Error, "error while getting user by id"
 	} else {
 		return nil, newUser.Password
 	}
 }
 
-//func (self *User) GetCurrentUserFromHeaders(SessionID string) (error, string) {
-//	user := &User{}
-//	queryResult := server.Conn().Where(&User{SessionId: SessionID}).First(user)
-//	if queryResult.Error != nil {
-//		fmt.Println()
-//		return queryResult.Error, ""
-//	} else {
-//		return nil, user.Email
-//	}
-//}
