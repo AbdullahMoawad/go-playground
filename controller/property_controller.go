@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"real-estate/App"
 	"real-estate/common"
+	"real-estate/common/helpers"
 	"real-estate/models"
 	"real-estate/server"
 )
@@ -46,7 +47,7 @@ func (self PropertyController) Update(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var property *models.Property
-	id := models.GetCurrentUserId(r)
+	userId := helpers.GetCurrentUserId(r)
 
 	if err := json.NewDecoder(r.Body).Decode(&property); err != nil {
 		self.JsonLogger(w, common.StatusBadRequest, common.ErrorMessageFailedToDecodeListRequest)
@@ -54,7 +55,7 @@ func (self PropertyController) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := server.CreatePostgresDbConnection().Model(&property).Where("id = ?", id).Updates(map[string]interface{}{
+	if err := server.CreatePostgresDbConnection().Model(&property).Where("id = ?", userId).Updates(map[string]interface{}{
 		"name":          property.Name,
 		"type":          property.Type,
 		"categoryName":  property.CategoryName,
@@ -103,7 +104,7 @@ func (self PropertyController) List(w http.ResponseWriter, r *http.Request) {
 func (self PropertyController) One(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	propertyId := models.GetCurrentUserId(r)
+	propertyId := helpers.GetCurrentUserId(r)
 	var property []models.Property
 
 	queryResult := server.CreatePostgresDbConnection().Where("id = ?", propertyId).First(&property)
@@ -118,8 +119,9 @@ func (self PropertyController) One(w http.ResponseWriter, r *http.Request) {
 func (self PropertyController) Delete(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	propertyId := models.GetCurrentUserId(r)
+	propertyId := helpers.GetCurrentPropertyId(r)
 	var property []models.Property
+
 	// unscoped to permanently delete record from database
 	if queryResult := server.CreatePostgresDbConnection().Where("id = ?", propertyId).Unscoped().Delete(&property); queryResult.Error != nil {
 		self.JsonLogger(w, 404, "No property found ..")

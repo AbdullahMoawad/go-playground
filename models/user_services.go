@@ -1,20 +1,13 @@
 package models
 
 import (
-	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
-	"net/http"
 	"real-estate/common"
 	"real-estate/server"
 	"strings"
 )
 
-type UserLogin struct {
-	Email     string `gorm:"type:varchar(100);unique_index" json:"email"`
-	Password  string `json:"password"`
-	SessionId string `json:"sessionId"`
-	IsActive  bool   `json:"isActive"`
-}
+
 
 func (self *User) Create() interface{} {
 	if queryResult := server.CreatePostgresDbConnection().Create(&self); queryResult.Error != nil {
@@ -121,8 +114,4 @@ func GetCurrentUserIdByEmail(Email string) string {
 	return user.Id
 }
 
-func GetCurrentUserId(r *http.Request) string {
-	params := mux.Vars(r)
-	id := params["id"]
-	return id
-}
+

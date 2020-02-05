@@ -24,6 +24,13 @@ type User struct {
 	IsActive     bool   `json:"isActive"`
 }
 
+type UserLogin struct {
+	Email     string `gorm:"type:varchar(100);unique_index" json:"email"`
+	Password  string `json:"password"`
+	SessionId string `json:"sessionId"`
+	IsActive  bool   `json:"isActive"`
+}
+
 func NewUser() User {
 	var user User
 	user.Id = uuid.New().String()

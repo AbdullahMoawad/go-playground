@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"real-estate/App"
 	"real-estate/common"
+	"real-estate/common/helpers"
 	"real-estate/models"
 	serv "real-estate/server"
 	"real-estate/sms"
@@ -40,7 +41,7 @@ func (self UserController) Update(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var User models.User
-	userId := models.GetCurrentUserId(r)
+	userId := helpers.GetCurrentUserId(r)
 
 	if err := json.NewDecoder(r.Body).Decode(&User); err != nil {
 		self.JsonLogger(w, 500, common.DecodingError)
@@ -56,7 +57,7 @@ func (self UserController) Update(w http.ResponseWriter, r *http.Request) {
 	self.Json(w, User, common.StatusOK)
 }
 
-// @todo review the code
+// @todo revamp the code
 func (self UserController) Login(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
@@ -108,7 +109,7 @@ func (self UserController) Profile(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var user models.User
-	user.Id = models.GetCurrentUserId(r)
+	user.Id = helpers.GetCurrentUserId(r)
 
 	query := user.Me()
 
@@ -119,7 +120,6 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var user *models.User
-	var session models.Session
 	tx := serv.CreatePostgresDbConnection().Begin()
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
@@ -128,7 +128,7 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := models.GetCurrentUserId(r)
+	userId := helpers.GetCurrentUserId(r)
 	if userId == "" {
 		self.JsonLogger(w, 400, common.EmptyUserId)
 		self.Logger("error", common.EmptyUserId, nil)
@@ -149,6 +149,12 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err, _ = user.Deactivate(userId)
+	if err != nil {
+		self.JsonLogger(w, 404, "Error deactivate user ..")
+		self.Logger("error", common.DatabaseOperationFailed, err)
+	}
+
 	if queryResult := tx.Model(&user).Where("id = ?", userId).Updates(map[string]interface{}{
 		"isActive": false}); queryResult.Error != nil {
 		tx.Rollback()
@@ -157,12 +163,12 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if queryResult := tx.Where("user_id = ?", userId).Unscoped().Delete(&session); queryResult.Error != nil {
-		tx.Rollback()
-		self.JsonLogger(w, 400, "error while deleting session")
-		self.Logger("error", " error while deleting session", queryResult.Error.Error())
-		return
+	err, _ = user.DeleteSession(userId)
+	if err != nil {
+		self.JsonLogger(w, 404, "Error delete session ..")
+		self.Logger("error", common.DatabaseOperationFailed, err)
 	}
+
 	tx.Commit()
 
 	self.Json(w, "user deactivated successfully", common.StatusOK)
