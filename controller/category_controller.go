@@ -16,23 +16,22 @@ type CategoryController struct {
 func (self *CategoryController) Create(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	//@todo use requestObject => inside it have validate, format, execute methods
 	category := models.NewCategory()
 	if err := json.NewDecoder(r.Body).Decode(&category); err != nil {
-		self.JsonLogger(w, 500, common.ErrorMessageFailedToDecodeListRequest, err)
-		self.Logger(common.ErrorMessageFailedToDecodeListRequest, "error")
+		self.JsonLogger(w, 500, common.ErrorMessageFailedToDecodeListRequest)
+		self.Logger("error", common.ErrorMessageFailedToDecodeListRequest, err)
 		return
 	}
 
 	IsExist := category.IsCategoryExist(category.Name)
 	if IsExist {
-		self.JsonLogger(w, common.StatusNotFound, common.CategoryAlreadyExist, IsExist)
-		self.Logger(common.CategoryAlreadyExist, "")
+		self.JsonLogger(w, common.StatusNotFound, common.CategoryAlreadyExist)
+		self.Logger("error", common.CategoryAlreadyExist, nil)
 		return
 	}
-	if err := serv.Conn().Create(&category); err.Error != nil {
-		self.JsonLogger(w, 500, "Error create category", err)
-		self.Logger("Error create category", "error")
+	if queryResult := serv.CreatePostgresDbConnection().Create(&category); queryResult.Error != nil {
+		self.JsonLogger(w, 500, "Error create category")
+		self.Logger("error", "Error create category", queryResult.Error.Error())
 		return
 	}
 	self.Json(w, category, common.StatusOK)
@@ -50,10 +49,10 @@ func (self *CategoryController) List(w http.ResponseWriter, r *http.Request) {
 	// var count init64
 	// queryResult := serv.Conn().Find(&category).count(&count)
 
-	queryResult := serv.Conn().Find(&category)
+	queryResult := serv.CreatePostgresDbConnection().Find(&category)
 	if queryResult.Error != nil {
-		self.JsonLogger(w, 500, "No category found ..", queryResult)
-		self.Logger("No category found ..", "error")
+		self.JsonLogger(w, 500, "No category found ..")
+		self.Logger("error", "No category found ..", queryResult.Error.Error())
 		return
 	}
 	self.Json(w, queryResult, common.StatusOK)
@@ -62,13 +61,14 @@ func (self *CategoryController) List(w http.ResponseWriter, r *http.Request) {
 
 func (self *CategoryController) One(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-
-	id := common.GetId(r)
 	var category []models.Category
-	queryResult := serv.Conn().Where("id = ?", id).First(&category)
+
+	categoryId := models.GetCurrentCategoryId(r)
+
+	queryResult := serv.CreatePostgresDbConnection().Where("id = ?", categoryId).First(&category)
 	if queryResult.Error != nil {
-		self.JsonLogger(w, 500, "No category found ..", queryResult)
-		self.Logger("No category found ..", "error")
+		self.JsonLogger(w, 500, "No category found ..")
+		self.Logger("error", "No category found ..", queryResult.Error.Error())
 		return
 	}
 	self.Json(w, queryResult, common.StatusOK)
@@ -77,13 +77,14 @@ func (self *CategoryController) One(w http.ResponseWriter, r *http.Request) {
 func (self *CategoryController) Delete(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	categoryId := common.GetId(r)
+	categoryId := models.GetCurrentCategoryId(r)
 	var category []models.Category
+
 	// unscoped to permanently delete record from database
-	queryResult := serv.Conn().Where("id = ?", categoryId).Unscoped().Delete(&category)
+	queryResult := serv.CreatePostgresDbConnection().Where("id = ?", categoryId).Unscoped().Delete(&category)
 	if queryResult.Error != nil {
-		self.JsonLogger(w, 500, "No category found ..", queryResult)
-		self.Logger("No category found ..", "error")
+		self.JsonLogger(w, 500, "No category found ..")
+		self.Logger("error", "No category found ..", queryResult.Error.Error())
 		return
 	}
 	self.Json(w, queryResult, common.StatusOK)

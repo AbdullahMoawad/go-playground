@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func SendSms(msg, from, to string) {
+func SendSms(msg, to string) {
 	// Set account keys & information
 	accountSid := "xxxx"
 	authToken := "xxxx"
@@ -21,7 +21,7 @@ func SendSms(msg, from, to string) {
 	// Pack up the data for our message
 	msgData := url.Values{}
 	msgData.Set("To", to)
-	msgData.Set("From", from)
+	msgData.Set("From", "13393371991")
 	msgData.Set("Body", msg)
 	msgDataReader := *strings.NewReader(msgData.Encode())
 

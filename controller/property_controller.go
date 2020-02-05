@@ -7,8 +7,7 @@ import (
 	"real-estate/App"
 	"real-estate/common"
 	"real-estate/models"
-	serv "real-estate/server"
-	"real-estate/services"
+	"real-estate/server"
 )
 
 type PropertyController struct {
@@ -21,23 +20,23 @@ func (self PropertyController) Create(w http.ResponseWriter, r *http.Request) {
 	newProperty := models.Property{}
 
 	if err := json.NewDecoder(r.Body).Decode(&newProperty); err != nil {
-		self.JsonLogger(w, common.StatusBadRequest, common.ErrorMessageFailedToDecodeListRequest, err)
-		self.Logger(common.ErrorMessageFailedToDecodeListRequest, "error")
+		self.JsonLogger(w, common.StatusBadRequest, common.ErrorMessageFailedToDecodeListRequest)
+		self.Logger(common.ErrorMessageFailedToDecodeListRequest, "error", err)
 		return
 	}
 
-	sessionId := common.GetSessionId(r)
+	sessionId := models.GetCurrentSessionId(r)
 
-	err, userId := common.GetCurrentUserIdFromHeaders(sessionId)
+	err, userId := models.GetCurrentUserIdFromHeaders(sessionId)
 	if err != nil {
-		self.JsonLogger(w, 404, err.Error(), err)
-		self.Logger(err.Error(), "error")
+		self.JsonLogger(w, 404, err.Error())
+		self.Logger("error", err.Error(), err)
 		return
 	}
 	newProperty.UserId = userId
 	newProperty.Id = uuid.New()
 
-	if err := serv.Conn().Create(&newProperty); err.Error != nil {
+	if err := server.CreatePostgresDbConnection().Create(&newProperty); err.Error != nil {
 		return
 	}
 	self.Json(w, &newProperty, common.StatusOK)
@@ -47,15 +46,15 @@ func (self PropertyController) Update(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var property *models.Property
-	id := common.GetId(r)
+	id := models.GetCurrentUserId(r)
 
 	if err := json.NewDecoder(r.Body).Decode(&property); err != nil {
-		self.JsonLogger(w, common.StatusBadRequest, common.ErrorMessageFailedToDecodeListRequest, err)
-		self.Logger(common.ErrorMessageFailedToDecodeListRequest, "error")
+		self.JsonLogger(w, common.StatusBadRequest, common.ErrorMessageFailedToDecodeListRequest)
+		self.Logger(common.ErrorMessageFailedToDecodeListRequest, "error", err)
 		return
 	}
 
-	if err := serv.Conn().Model(&property).Where("id = ?", id).Updates(map[string]interface{}{
+	if err := server.CreatePostgresDbConnection().Model(&property).Where("id = ?", id).Updates(map[string]interface{}{
 		"name":          property.Name,
 		"type":          property.Type,
 		"categoryName":  property.CategoryName,
@@ -76,24 +75,26 @@ func (self PropertyController) Update(w http.ResponseWriter, r *http.Request) {
 		self.Json(w, &err, common.StatusOK)
 		return
 	}
+	self.Json(w, "updated successfully", common.StatusOK)
+
 }
 
 func (self PropertyController) List(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	sessionId := common.GetSessionId(r)
+	sessionId := models.GetCurrentSessionId(r)
 
-	err, userId := common.GetCurrentUserIdFromHeaders(sessionId)
+	err, userId := models.GetCurrentUserIdFromHeaders(sessionId)
 	if err != nil {
-		self.JsonLogger(w, common.StatusNotFound, "Error Finding user id", err)
-		self.Logger("Error Finding user", "error")
+		self.JsonLogger(w, common.StatusNotFound, "Error Finding user id")
+		self.Logger("Error Finding user", "error", err)
 		return
 	}
 
-	queryResult := services.FindAllProperties(userId)
+	queryResult := models.FindAllProperties(userId)
 	if queryResult.Error != nil {
-		self.JsonLogger(w, 404, "No property fount ..", queryResult)
-		self.Logger("Error finding user", "error")
+		self.JsonLogger(w, 404, "No property fount ..")
+		self.Logger("Error finding user", "error", queryResult.Error.Error())
 		return
 	}
 	self.Json(w, queryResult, common.StatusOK)
@@ -102,12 +103,13 @@ func (self PropertyController) List(w http.ResponseWriter, r *http.Request) {
 func (self PropertyController) One(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	propertyId := common.GetId(r)
+	propertyId := models.GetCurrentUserId(r)
 	var property []models.Property
-	queryResult := serv.Conn().Where("id = ?", propertyId).First(&property)
+
+	queryResult := server.CreatePostgresDbConnection().Where("id = ?", propertyId).First(&property)
 	if queryResult.Error != nil {
-		self.JsonLogger(w, 404, "No property found ..", queryResult)
-		self.Logger("Error finding property", "error")
+		self.JsonLogger(w, 404, "No property found ..")
+		self.Logger("Error finding property", "error", queryResult.Error.Error())
 		return
 	}
 	self.Json(w, queryResult, common.StatusOK)
@@ -116,14 +118,13 @@ func (self PropertyController) One(w http.ResponseWriter, r *http.Request) {
 func (self PropertyController) Delete(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	propertyId := common.GetId(r)
+	propertyId := models.GetCurrentUserId(r)
 	var property []models.Property
 	// unscoped to permanently delete record from database
-	queryResult := serv.Conn().Where("id = ?", propertyId).Unscoped().Delete(&property)
-	if queryResult.Error != nil {
-		self.JsonLogger(w, 404, "No property found ..", queryResult)
-		self.Logger("Error finding property", "error")
+	if queryResult := server.CreatePostgresDbConnection().Where("id = ?", propertyId).Unscoped().Delete(&property); queryResult.Error != nil {
+		self.JsonLogger(w, 404, "No property found ..")
+		self.Logger("Error finding property", "error", queryResult.Error.Error())
 		return
 	}
-	self.Json(w, queryResult, common.StatusOK)
+	self.Json(w, "deleted successfully", common.StatusOK)
 }

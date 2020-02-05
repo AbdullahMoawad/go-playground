@@ -8,8 +8,6 @@ import (
 
 type Controller struct{}
 
-// @todo extract the file to app.go
-
 type Log struct {
 	Status  int
 	Message string
@@ -17,11 +15,10 @@ type Log struct {
 }
 
 // return json error
-func (self Controller) JsonLogger(res http.ResponseWriter, status int, msg string, error interface{}) {
+func (self Controller) JsonLogger(res http.ResponseWriter, status int, msg string) {
 	log := Log{
 		Status:  status,
 		Message: msg,
-		Error:   error,
 	}
 	response, _ := json.Marshal(log)
 	res.Header().Set("Content-Type", "application/json")
@@ -36,39 +33,40 @@ func (self Controller) Json(res http.ResponseWriter, payload interface{}, status
 	_, _ = res.Write(response)
 }
 
-// return cli error using zap logger
-func (self Controller) Logger(msg, errType string) *zap.Logger {
+func (self Controller) Logger(errType, msg string, err interface{}) *zap.Logger {
 	log, _ := zap.NewDevelopment()
-	//@todo use switch
 
 	switch errType {
 	case "debug":
-		log.Debug(msg)
+		str := msg + (err).(string)
+		log.Debug(msg + str)
 		return log
 	case "info":
-		log.Info(msg)
+		str := msg + (err).(string)
+		log.Info(msg + str)
 		return log
 	default:
-		log.Error(msg)
+		str := msg + (err).(string)
+		log.Error(msg + str)
 		return log
-
 	}
 }
 
-func Logger(msg, errType string) *zap.Logger {
+func Logger(errType, msg string, err string) *zap.Logger {
 	log, _ := zap.NewDevelopment()
-	//@todo use switch
 
 	switch errType {
 	case "debug":
-		log.Debug(msg)
+		str := msg + err
+		log.Debug(msg + str)
 		return log
 	case "info":
-		log.Info(msg)
+		str := msg + err
+		log.Info(msg + str)
 		return log
 	default:
-		log.Error(msg)
+		str := msg + err
+		log.Error(msg + str)
 		return log
-
 	}
 }

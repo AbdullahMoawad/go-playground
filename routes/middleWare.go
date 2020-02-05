@@ -5,9 +5,8 @@ import (
 	"real-estate/App"
 	"real-estate/common"
 	_ "real-estate/controller"
-	"real-estate/services"
+	"real-estate/models"
 )
-
 
 func IsLogged(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -16,14 +15,14 @@ func IsLogged(f http.HandlerFunc) http.HandlerFunc {
 		//@todo trim space
 		//@check postgresql join
 		if sessionId == "" {
-			App.Logger(common.Login, sessionId)
-			controller.JsonLogger(w, 500, common.Login, nil)
+			App.Logger("error", common.Login, sessionId)
+			controller.JsonLogger(w, 500, common.Login)
 			return
 		}
-		session := services.IsSessionExist(sessionId)
+		session := models.IsSessionExist(sessionId)
 		if !session {
-			App.Logger(common.SessionExpired, "error")
-			controller.JsonLogger(w, 500, common.SessionExpired, nil)
+			App.Logger("error", common.SessionExpired, "")
+			controller.JsonLogger(w, 500, common.SessionExpired)
 			return
 		}
 		f(w, r)

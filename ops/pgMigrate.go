@@ -20,13 +20,13 @@ var pgMigrate = &cobra.Command{
 		model := args[0]
 		switch model {
 		case "user":
-			server.Conn().AutoMigrate(&models.User{})
+			server.CreatePostgresDbConnection().AutoMigrate(&models.User{})
 		case "estate":
-			server.Conn().AutoMigrate(&models.Property{})
+			server.CreatePostgresDbConnection().AutoMigrate(&models.Property{})
 		case "session":
-			server.Conn().AutoMigrate(&models.Session{})
+			server.CreatePostgresDbConnection().AutoMigrate(&models.Session{})
 		case "category":
-			server.Conn().AutoMigrate(&models.Category{})
+			server.CreatePostgresDbConnection().AutoMigrate(&models.Category{})
 		default:
 			fmt.Println("This model hasn't created yet :(")
 		}

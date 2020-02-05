@@ -2,13 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="affa3703-bf76-4de7-af0b-2ef84afd3819" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/models/property_services.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/sessions_services.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/user_services.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/error_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/App/error_message.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/constants.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/functions.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/functions.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/hashing.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/hashing.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/category_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/category_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/property_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/property_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/sessions_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/sessions_controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requests/user_requests.go" beforeDir="false" afterPath="$PROJECT_DIR$/requests/user_requests.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/category_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/category_services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/session.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sessions.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ops/pgMigrate.go" beforeDir="false" afterPath="$PROJECT_DIR$/ops/pgMigrate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requests/property_requests.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requests/user_requests.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/category_routes.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/middleWare.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/middleWare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/realestate_routes.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/user_routes.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/server/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/category_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/category_services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/property_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/property_services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/session_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/session_service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/user_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/user_services.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sms/sms.go" beforeDir="false" afterPath="$PROJECT_DIR$/sms/sms.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/uploader/upload.go" afterDir="false" />
@@ -17,6 +35,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
   </component>
   <component name="GOROOT" path="/usr/local/Cellar/go/1.13.5/libexec" />
   <component name="Git.Settings">
@@ -29,7 +54,13 @@
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
@@ -78,6 +109,9 @@
       </list>
     </option>
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
@@ -98,9 +132,17 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="341" y="164" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1580737022887" />
-    <state x="488" y="271" width="703" height="508" key="find.popup" timestamp="1580807606208">
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1580892372822">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="488" y="271" width="703" height="508" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580807606208" />
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1580892372822" />
+    <state x="488" y="271" width="703" height="508" key="find.popup" timestamp="1580907493668">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="488" y="271" width="703" height="508" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580907493668" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1580889118739">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580889118739" />
   </component>
 </project>

@@ -10,7 +10,7 @@ import (
 	"net/textproto"
 	"os"
 	"real-estate/App"
-	"real-estate/common"
+	"real-estate/models"
 )
 
 type UploadController struct {
@@ -40,8 +40,8 @@ func (self *UploadController) UploadFile(w http.ResponseWriter, r *http.Request)
 	file, _, err := r.FormFile(kind)
 	if err != nil {
 
-		self.JsonLogger(w, 404, "Error Retrieving the File", err)
-		self.Logger("Error Retrieving the File", "error")
+		self.JsonLogger(w, 404, "Error Retrieving the File")
+		self.Logger("error", "Error Retrieving the File", err)
 		return
 	}
 	defer file.Close()
@@ -55,8 +55,8 @@ func (self *UploadController) UploadFile(w http.ResponseWriter, r *http.Request)
 	dir := ""
 
 	if kind == "profile" {
-		sessId := r.Header.Get("sessionId")
-		err, userId := common.GetCurrentUserIdFromHeaders(sessId)
+		sessId := models.GetCurrentSessionId(r)
+		err, userId := models.GetCurrentUserIdFromHeaders(sessId)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -77,8 +77,8 @@ func (self *UploadController) UploadFile(w http.ResponseWriter, r *http.Request)
 	tempFile, err := ioutil.TempFile(dir, "upload-*.png")
 	if err != nil {
 
-		self.JsonLogger(w, 500, "", err)
-		self.Logger("", "error")
+		self.JsonLogger(w, 500, " ")
+		self.Logger("error", " ", err)
 		return
 	}
 	defer tempFile.Close()
@@ -87,14 +87,14 @@ func (self *UploadController) UploadFile(w http.ResponseWriter, r *http.Request)
 
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		self.JsonLogger(w, 500, "can't read file", err)
-		self.Logger("can't read file", "error")
+		self.JsonLogger(w, 500, "can't read file")
+		self.Logger("error", "can't read file", err)
 		return
 	}
 	// check if the file you gonna upload is image or no't
 	if !filetype.IsImage(fileBytes) {
-		self.JsonLogger(w, 406, "this file isn't an image (no't accepted ", nil)
-		self.Logger("this file isn't an image (no't accepted", "error")
+		self.JsonLogger(w, 406, "this file isn't an image (no't accepted ")
+		self.Logger("error", "this file isn't an image (no't accepted", nil)
 		return
 	}
 

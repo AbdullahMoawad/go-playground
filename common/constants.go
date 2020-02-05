@@ -1,19 +1,21 @@
 package common
 
 const (
-	LoginFailed                           = "Error login, Wrong email or password "
-	WorngPassword                         = "Wrong email or password "
-	EmptyLoginFields                      = "Please insert email and password to login "
-	NotActiveUser                         = "Sorry user is deactivated, activate first "
-	UserNotFound                          = "user doesn't exist "
-	EmptyUserId                           = "empty user id"
-	SessionExpired                        = "Please login,session expired "
-	Login                                 = "Please Login First"
-	CategoryAlreadyExist                  = "Category with same name already exist"
-	DecodingError                         = "Error while decoding request body"
-	ErrorMessageFailedToDecodeListRequest = "failed to decode list request"
+	LoginFailed                     = "Error login, Wrong email or password "
+	WorngPassword                   = "Wrong email or password "
+	EmptyLoginFields                = "Please insert email and password to login "
+	NotActiveUser                   = "Sorry user is deactivated, activate first "
+	UserNotFound                    = "user doesn't exist "
+	EmptyUserId                     = "empty user id"
+	SessionExpired                  = "Please login,session expired "
+	Login                           = "Please Login First"
+	CategoryAlreadyExist            = "Category with same name already exist"
+	DecodingError                   = "Error while decoding request body"
+	UserFormatingAndValidatingError = "Error while formatting and validating user"
 
-	ProfileError = "Error while getting profile data"
+	ErrorMessageFailedToDecodeListRequest = "failed to decode list request"
+	DatabaseOperationFailed               = "invalid Operation"
+	ProfileError                          = "Error while getting profile data"
 )
 const (
 	StatusContinue           = 100 // RFC 7231, 6.2.1
