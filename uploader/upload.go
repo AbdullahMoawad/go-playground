@@ -10,6 +10,7 @@ import (
 	"net/textproto"
 	"os"
 	"real-estate/App"
+	"real-estate/common/helpers"
 	"real-estate/models"
 )
 
@@ -56,7 +57,7 @@ func (self *UploadController) UploadFile(w http.ResponseWriter, r *http.Request)
 
 	if kind == "profile" {
 		sessId := models.GetCurrentSessionId(r)
-		err, userId := models.GetCurrentUserIdFromHeaders(sessId)
+		err, userId := helpers.GetCurrentUserIdFromHeaders(sessId)
 		if err != nil {
 			fmt.Println(err)
 			return

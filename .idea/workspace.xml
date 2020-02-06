@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="affa3703-bf76-4de7-af0b-2ef84afd3819" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/common/helpers/helpers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/helpers/helpers.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/helpers/helpers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/property_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/property_controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sessions_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/sessions_services.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/user_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_services.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/middleWare.go" beforeDir="false" afterPath="$PROJECT_DIR$/routes/middleWare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/user_services.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/user_services.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploader/upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/uploader/upload.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +24,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/local/Cellar/go/1.13.5/libexec" />
+  <component name="GOROOT" path="/usr/local/Cellar/go/1.13.7/libexec" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -96,10 +97,10 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="440" y="190" key="#GOROOT" timestamp="1580721569295">
+    <state x="440" y="190" key="#GOROOT" timestamp="1580993009208">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="440" y="190" key="#GOROOT/0.0.1680.1050@0.0.1680.1050" timestamp="1580721569295" />
+    <state x="440" y="190" key="#GOROOT/0.0.1680.1050@0.0.1680.1050" timestamp="1580993009208" />
     <state x="168" y="94" key="MergeDialog" timestamp="1580721738572">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
@@ -117,10 +118,10 @@
     </state>
     <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1580912899238" />
     <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1680.972@0.23.1680.972" timestamp="1580912836153" />
-    <state x="488" y="271" width="703" height="508" key="find.popup" timestamp="1580912511723">
+    <state x="488" y="271" width="858" height="572" key="find.popup" timestamp="1580999787200">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="488" y="271" width="703" height="508" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580912511723" />
+    <state x="488" y="271" width="858" height="572" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1580999787200" />
     <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1580889118739">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>

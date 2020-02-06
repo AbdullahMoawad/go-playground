@@ -13,3 +13,9 @@ https://www.amazon.co.uk/Clean-Code-Handbook-Software-Craftsmanship/dp/013235088
 https://golangbot.com/learn-golang-series/
 
 https://www.rabbitmq.com/getstarted.html
+
+
+* golang pass by reference example 
+    -https://hackernoon.com/today-i-learned-pass-by-reference-on-interface-parameter-in-golang-35ee8d8a848e
+* Dependency injection
+    -https://blog.drewolson.org/dependency-injection-in-go

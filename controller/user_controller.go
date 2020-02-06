@@ -7,8 +7,9 @@ import (
 	"real-estate/common"
 	"real-estate/common/helpers"
 	"real-estate/models"
-	serv "real-estate/server"
+	"real-estate/server"
 	"real-estate/sms"
+	"time"
 )
 
 type UserController struct {
@@ -71,13 +72,29 @@ func (self UserController) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err, user := LoginRequest.Format().ValidateLogin()
-	if err != "" {
-		self.JsonLogger(w, 500, common.UserFormatingAndValidatingError+err)
+	if err != nil {
+		if user != nil && user.IsActive{
+
+			user.FailedTriesCount  = user.FailedTriesCount +1
+			user.LastFailedLoginAt = time.Now()
+
+			if user.FailedTriesCount >= 5{
+				user.IsActive = false
+			}
+
+			if err := user.UpdateFailedTries(user.Id) ; err != nil{
+				self.JsonLogger(w, 500, "saving lock tires error")
+				self.Logger("error", "saving lock tires error", err)
+				return
+			}
+		}
+		self.JsonLogger(w, 500, (err).(string))
 		self.Logger("error", common.UserFormatingAndValidatingError, err)
 		return
 	}
 
-	userId := models.GetCurrentUserIdByEmail(LoginRequest.Email)
+	userId := helpers.GetCurrentUserIdByEmail(LoginRequest.Email)
+
 	errMsg, sessionId := models.CreateSession(userId)
 	if errMsg != nil {
 		self.JsonLogger(w, 500, "error while creating session"+errMsg.Error())
@@ -88,7 +105,8 @@ func (self UserController) Login(w http.ResponseWriter, r *http.Request) {
 	user.SessionId = sessionId
 	User.SessionId = user.SessionId
 
-	updateSessionId := User.UpdateUserSessionId(LoginRequest.Email)
+	// reset failed tries and update sessionId
+	updateSessionId := User.UpdateUser(LoginRequest.Email)
 	if updateSessionId != nil {
 		self.JsonLogger(w, 400, "error while updating user Session")
 		self.Logger("error", common.DatabaseOperationFailed, updateSessionId)
@@ -120,7 +138,6 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	var user *models.User
-	tx := serv.CreatePostgresDbConnection().Begin()
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		self.JsonLogger(w, 500, common.DecodingError)
@@ -155,9 +172,8 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 		self.Logger("error", common.DatabaseOperationFailed, err)
 	}
 
-	if queryResult := tx.Model(&user).Where("id = ?", userId).Updates(map[string]interface{}{
+	if queryResult := server.CreatePostgresDbConnection().Model(&user).Where("id = ?", userId).Updates(map[string]interface{}{
 		"isActive": false}); queryResult.Error != nil {
-		tx.Rollback()
 		self.JsonLogger(w, 400, "error while deactivating user")
 		self.Logger("error", "error while deactivating user", queryResult.Error.Error())
 		return
@@ -169,7 +185,6 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 		self.Logger("error", common.DatabaseOperationFailed, err)
 	}
 
-	tx.Commit()
 
 	self.Json(w, "user deactivated successfully", common.StatusOK)
 }

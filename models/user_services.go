@@ -7,8 +7,6 @@ import (
 	"strings"
 )
 
-
-
 func (self *User) Create() interface{} {
 	if queryResult := server.CreatePostgresDbConnection().Create(&self); queryResult.Error != nil {
 		return queryResult.Error.Error()
@@ -17,15 +15,36 @@ func (self *User) Create() interface{} {
 }
 
 func (self *User) Update(id string) interface{} {
-	if queryResult := server.CreatePostgresDbConnection().Model(self).Where("id = ?", id).Updates(self); queryResult.Error != nil {
+	if queryResult := server.CreatePostgresDbConnection().Model(self).Where("id = ?", id).Updates(self);
+	queryResult.Error != nil {
 		return queryResult.Error.Error()
 	}
 	return nil
 }
 
-func (self *User) UpdateUserSessionId(email string) interface{} {
+func (self *User) UpdateFailedTries(userId string) interface{} {
+	if queryResult := server.CreatePostgresDbConnection().Model(self).Where("id = ?", userId).Updates(map[string]interface{}{
+		"FailedTriesCount": self.FailedTriesCount,
+		"LastFailedLoginAt": self.LastFailedLoginAt,
+		"IsActive" : self.IsActive,
+	});
+		queryResult.Error != nil {
+		return queryResult.Error.Error()
+	}
+	return nil
+}
+
+func (self *User) FindByEmail(email string) *User {
+	if queryResult  := server.CreatePostgresDbConnection().Model(self).Where("email = ?", email).First(self); queryResult.Error != nil {
+		return nil
+	}
+	return self
+}
+
+func (self *User) UpdateUser(email string) interface{} {
 	if queryResult := server.CreatePostgresDbConnection().Model(&self).Where("email = ?", email).Updates(map[string]interface{}{
 		"sessionId": &self.SessionId,
+		"FailedTriesCount": 0,
 	}); queryResult.Error != nil {
 		return queryResult.Error.Error()
 	}
@@ -46,15 +65,7 @@ func (self *User) GetConnection() *gorm.DB {
 	return server.CreatePostgresDbConnection()
 }
 
-func (self *User) FindByEmail(mail string) (error, *User) {
-	newUser := &User{}
-	queryResult := server.CreatePostgresDbConnection().Where(&User{Email: mail}).First(newUser)
-	if queryResult.Error != nil {
-		return queryResult.Error, nil
-	} else {
-		return nil, newUser
-	}
-}
+
 
 func GetPassword(id string) (error, string) {
 	newUser := &User{}
@@ -66,52 +77,37 @@ func GetPassword(id string) (error, string) {
 	}
 }
 
-//func (self *User) Create() error {
-//	err := self.GetConnection().Create(self)
-//	return err.Error
-//}
-
 func (self *UserLogin) Format() *UserLogin {
 	self.Email = strings.ToLower(self.Email)
 	return self
 }
 
-func (self *UserLogin) ValidateLogin() (string, *User) {
-	user := &User{}
+func (self *User) Save() error {
+	err := self.GetConnection().Save(self)
+	return err.Error
+}
 
+
+func (self *UserLogin) ValidateLogin() (interface{}, *User) {
+	var user User
 	if self.Email != "" && self.Password != "" {
-		_, user = user.FindByEmail(self.Email)
-		if user == nil || user.Email == "" {
-			return common.UserNotFound, nil
-		} else if self.Email != user.Email {
-			return common.LoginFailed, nil
+
+		user := user.FindByEmail(self.Email)
+
+		if user.Email == "" {
+			return common.UserNotFound, user
 		}
-		_, IsMatched := common.CheckPasswordHash(self.Password, user.Password)
-		if IsMatched == false {
-			return common.LoginFailed, nil
+
+		if !user.IsActive {
+			return common.NotActiveUser, user
 		}
-		if user.IsActive == false {
-			return common.NotActiveUser, nil
+		err, IsMatched := common.CheckPasswordHash(self.Password, user.Password)
+		if !IsMatched {
+			return err.Error(), user
 		}
-	} else {
-		return common.UserNotFound, nil
 	}
-	user.Password = ""
-	return "", user
+	return nil, &user
 }
 
-func GetCurrentUserIdFromHeaders(SessionID string) (error, string) {
-	session := Session{}
-	queryResult := server.CreatePostgresDbConnection().Where(&Session{SessionId: SessionID}).First(&session)
-	return queryResult.Error, session.UserId
-}
-
-func GetCurrentUserIdByEmail(Email string) string {
-	user := User{}
-	if queryResult := server.CreatePostgresDbConnection().Where(&User{Email: Email}).First(&user); queryResult.Error != nil {
-		return queryResult.Error.Error()
-	}
-	return user.Id
-}
 
 

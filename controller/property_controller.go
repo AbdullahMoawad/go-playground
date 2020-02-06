@@ -28,7 +28,7 @@ func (self PropertyController) Create(w http.ResponseWriter, r *http.Request) {
 
 	sessionId := models.GetCurrentSessionId(r)
 
-	err, userId := models.GetCurrentUserIdFromHeaders(sessionId)
+	err, userId := helpers.GetCurrentUserIdFromHeaders(sessionId)
 	if err != nil {
 		self.JsonLogger(w, 404, err.Error())
 		self.Logger("error", err.Error(), err)
@@ -85,7 +85,7 @@ func (self PropertyController) List(w http.ResponseWriter, r *http.Request) {
 
 	sessionId := models.GetCurrentSessionId(r)
 
-	err, userId := models.GetCurrentUserIdFromHeaders(sessionId)
+	err, userId := helpers.GetCurrentUserIdFromHeaders(sessionId)
 	if err != nil {
 		self.JsonLogger(w, common.StatusNotFound, "Error Finding user id")
 		self.Logger("Error Finding user", "error", err)
