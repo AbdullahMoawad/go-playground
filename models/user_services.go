@@ -15,8 +15,7 @@ func (self *User) Create() interface{} {
 }
 
 func (self *User) Update(id string) interface{} {
-	if queryResult := server.CreatePostgresDbConnection().Model(self).Where("id = ?", id).Updates(self);
-	queryResult.Error != nil {
+	if queryResult := server.CreatePostgresDbConnection().Model(self).Where("id = ?", id).Updates(self); queryResult.Error != nil {
 		return queryResult.Error.Error()
 	}
 	return nil
@@ -24,18 +23,17 @@ func (self *User) Update(id string) interface{} {
 
 func (self *User) UpdateFailedTries(userId string) interface{} {
 	if queryResult := server.CreatePostgresDbConnection().Model(self).Where("id = ?", userId).Updates(map[string]interface{}{
-		"FailedTriesCount": self.FailedTriesCount,
+		"FailedTriesCount":  self.FailedTriesCount,
 		"LastFailedLoginAt": self.LastFailedLoginAt,
-		"IsActive" : self.IsActive,
-	});
-		queryResult.Error != nil {
+		"IsActive":          self.IsActive,
+	}); queryResult.Error != nil {
 		return queryResult.Error.Error()
 	}
 	return nil
 }
 
 func (self *User) FindByEmail(email string) *User {
-	if queryResult  := server.CreatePostgresDbConnection().Model(self).Where("email = ?", email).First(self); queryResult.Error != nil {
+	if queryResult := server.CreatePostgresDbConnection().Model(self).Where("email = ?", email).First(self); queryResult.Error != nil {
 		return nil
 	}
 	return self
@@ -43,7 +41,7 @@ func (self *User) FindByEmail(email string) *User {
 
 func (self *User) UpdateUser(email string) interface{} {
 	if queryResult := server.CreatePostgresDbConnection().Model(&self).Where("email = ?", email).Updates(map[string]interface{}{
-		"sessionId": &self.SessionId,
+		"sessionId":        &self.SessionId,
 		"FailedTriesCount": 0,
 	}); queryResult.Error != nil {
 		return queryResult.Error.Error()
@@ -65,8 +63,6 @@ func (self *User) GetConnection() *gorm.DB {
 	return server.CreatePostgresDbConnection()
 }
 
-
-
 func GetPassword(id string) (error, string) {
 	newUser := &User{}
 	queryResult := server.CreatePostgresDbConnection().Model(&newUser).Where(&User{Id: id}).First(&newUser)
@@ -86,7 +82,6 @@ func (self *User) Save() error {
 	err := self.GetConnection().Save(self)
 	return err.Error
 }
-
 
 func (self *UserLogin) ValidateLogin() (interface{}, *User) {
 	var user User
@@ -108,6 +103,3 @@ func (self *UserLogin) ValidateLogin() (interface{}, *User) {
 	}
 	return nil, &user
 }
-
-
-

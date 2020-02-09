@@ -73,16 +73,16 @@ func (self UserController) Login(w http.ResponseWriter, r *http.Request) {
 
 	err, user := LoginRequest.Format().ValidateLogin()
 	if err != nil {
-		if user != nil && user.IsActive{
+		if user != nil && user.IsActive {
 
-			user.FailedTriesCount  = user.FailedTriesCount +1
+			user.FailedTriesCount = user.FailedTriesCount + 1
 			user.LastFailedLoginAt = time.Now()
 
-			if user.FailedTriesCount >= 5{
+			if user.FailedTriesCount >= 5 {
 				user.IsActive = false
 			}
 
-			if err := user.UpdateFailedTries(user.Id) ; err != nil{
+			if err := user.UpdateFailedTries(user.Id); err != nil {
 				self.JsonLogger(w, 500, "saving lock tires error")
 				self.Logger("error", "saving lock tires error", err)
 				return
@@ -184,7 +184,6 @@ func (self UserController) Deactivate(w http.ResponseWriter, r *http.Request) {
 		self.JsonLogger(w, 404, "Error delete session ..")
 		self.Logger("error", common.DatabaseOperationFailed, err)
 	}
-
 
 	self.Json(w, "user deactivated successfully", common.StatusOK)
 }

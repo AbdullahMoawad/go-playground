@@ -33,7 +33,7 @@ func (self *User) Deactivate(userId string) (error, string) {
 	return nil, "session deleted successfully"
 }
 
-func (self *User)IsSessionExist(id string) bool {
+func (self *User) IsSessionExist(id string) bool {
 	session := Session{}
 	queryResult := server.CreatePostgresDbConnection().Where(&Session{SessionId: id}).Find(&session)
 	if queryResult.Error != nil {
