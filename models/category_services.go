@@ -3,7 +3,7 @@ package models
 import (
 	"github.com/gorilla/mux"
 	"net/http"
-	"real-estate/server"
+	"property/server"
 )
 
 func (self *Category) FindCategoryByName(name string) *Category {

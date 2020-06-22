@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
-	"real-estate/server"
+	"property/server"
 )
 
 func FindAllProperties(userId string) *gorm.DB {

@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"real-estate/App"
-	"real-estate/models"
-	"real-estate/server"
+	"property/App"
+	"property/models"
+	"property/server"
 )
 
 type SessionController struct {

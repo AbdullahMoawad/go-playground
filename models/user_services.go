@@ -2,8 +2,9 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
-	"real-estate/common"
-	"real-estate/server"
+	"property/common"
+	"property/server"
+
 	"strings"
 )
 

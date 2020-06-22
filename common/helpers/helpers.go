@@ -3,8 +3,8 @@ package helpers
 import (
 	"github.com/gorilla/mux"
 	"net/http"
-	"real-estate/models"
-	"real-estate/server"
+	"property/models"
+	"property/server"
 )
 
 func GetCurrentUserId(r *http.Request) string {

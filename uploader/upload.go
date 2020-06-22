@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"net/textproto"
 	"os"
-	"real-estate/App"
-	"real-estate/common/helpers"
-	"real-estate/models"
+	"property/App"
+	"property/common/helpers"
+	"property/models"
 )
 
 type UploadController struct {

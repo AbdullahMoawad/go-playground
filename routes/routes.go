@@ -2,8 +2,9 @@ package routes
 
 import (
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
-	"real-estate/controller"
+	"property/controller"
 )
 
 func Routes() {
@@ -34,6 +35,7 @@ func Routes() {
 
 	// Upload file
 	//r.HandleFunc("/upload", IsLogged(uploader.UploadFile)).Methods("POST")
+	log.Println("App running successfully ..:)")
 
 	http.ListenAndServe(":8000", r)
 }

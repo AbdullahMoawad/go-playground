@@ -1,23 +1,26 @@
-module real-estate
+module property
 
-go 1.12
+go 1.14
+
+replace gopkg.in/urfave/cli.v2 => github.com/urfave/cli/v2 v2.2.0
 
 require (
-	cloud.google.com/go v0.37.4 // indirect
-	github.com/go-chi/chi v4.0.3+incompatible
-	github.com/go-chi/cors v1.0.0
+	github.com/fatih/color v1.9.0 // indirect
+	github.com/go-siris/siris v7.4.0+incompatible // indirect
 	github.com/google/uuid v1.1.1
-	github.com/gorilla/mux v1.7.3
-	github.com/h2non/filetype v1.0.10
-	github.com/jinzhu/gorm v1.9.12
-	github.com/lib/pq v1.3.0 // indirect
-	github.com/pelletier/go-toml v1.2.0
-	github.com/spf13/cobra v0.0.5
+	github.com/gorilla/mux v1.7.4
+	github.com/h2non/filetype v1.1.0
+	github.com/jinzhu/gorm v1.9.14
+	github.com/labstack/echo v3.3.10+incompatible // indirect
+	github.com/labstack/gommon v0.3.0 // indirect
+	github.com/lib/pq v1.7.0 // indirect
+	github.com/oxequa/interact v0.0.0-20171114182912-f8fb5795b5d7 // indirect
+	github.com/oxequa/realize v2.0.2+incompatible // indirect
+	github.com/satori/go.uuid v1.2.0 // indirect
+	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5 // indirect
-	go.uber.org/atomic v1.5.1 // indirect
-	go.uber.org/multierr v1.4.0 // indirect
-	go.uber.org/zap v1.13.0
-	golang.org/x/crypto v0.0.0-20200208060501-ecb85df21340
-	golang.org/x/lint v0.0.0-20200130185559-910be7a94367 // indirect
-	golang.org/x/tools v0.0.0-20200207224406-61798d64f025 // indirect
+	github.com/valyala/fasttemplate v1.1.1 // indirect
+	go.uber.org/zap v1.15.0
+	golang.org/x/crypto v0.0.0-20200604202706-70a84ac30bf9
+	gopkg.in/urfave/cli.v2 v2.0.0-00010101000000-000000000000 // indirect
 )

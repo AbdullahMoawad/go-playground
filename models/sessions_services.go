@@ -3,7 +3,7 @@ package models
 import (
 	"github.com/google/uuid"
 	"net/http"
-	"real-estate/server"
+	"property/server"
 )
 
 func CreateSession(userId string) (error, string) {

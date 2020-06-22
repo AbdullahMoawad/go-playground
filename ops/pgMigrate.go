@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"log"
-	"real-estate/models"
-	"real-estate/server"
-
-	"os"
+	"property/models"
+	"property/server"
 )
 
 var command = &cobra.Command{}
@@ -21,7 +19,7 @@ var pgMigrate = &cobra.Command{
 		switch model {
 		case "user":
 			server.CreatePostgresDbConnection().AutoMigrate(&models.User{})
-		case "estate":
+		case "property":
 			server.CreatePostgresDbConnection().AutoMigrate(&models.Property{})
 		case "session":
 			server.CreatePostgresDbConnection().AutoMigrate(&models.Session{})
@@ -37,8 +35,8 @@ var pgMigrate = &cobra.Command{
 func init() { command.AddCommand(pgMigrate) }
 
 func Execute() {
-	if err := command.Execute(); err != nil {
+	/*if err := command.Execute(); err != nil {
 		log.Println(err)
 		os.Exit(1)
-	}
+	}*/
 }

@@ -2,10 +2,9 @@ package routes
 
 import (
 	"net/http"
-	"real-estate/App"
-	"real-estate/common"
-	_ "real-estate/controller"
-	"real-estate/models"
+	"property/App"
+	"property/common"
+	"property/models"
 )
 
 func IsLogged(f http.HandlerFunc) http.HandlerFunc {

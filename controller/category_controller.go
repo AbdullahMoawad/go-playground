@@ -3,10 +3,11 @@ package controller
 import (
 	"encoding/json"
 	"net/http"
-	"real-estate/App"
-	"real-estate/common"
-	"real-estate/models"
-	serv "real-estate/server"
+	"property/App"
+	"property/common"
+	"property/models"
+
+	serv "property/server"
 )
 
 type CategoryController struct {

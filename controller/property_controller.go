@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"github.com/google/uuid"
 	"net/http"
-	"real-estate/App"
-	"real-estate/common"
-	"real-estate/common/helpers"
-	"real-estate/models"
-	"real-estate/server"
+	"property/App"
+	"property/common"
+	"property/common/helpers"
+	"property/models"
+	"property/server"
 )
 
 type PropertyController struct {

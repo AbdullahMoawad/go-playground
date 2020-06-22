@@ -3,12 +3,13 @@ package controller
 import (
 	"encoding/json"
 	"net/http"
-	"real-estate/App"
-	"real-estate/common"
-	"real-estate/common/helpers"
-	"real-estate/models"
-	"real-estate/server"
-	"real-estate/sms"
+	"property/App"
+	"property/common"
+	"property/common/helpers"
+	"property/models"
+	"property/server"
+	"property/sms"
+
 	"time"
 )
 

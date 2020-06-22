@@ -17,12 +17,9 @@ type DbConfig struct {
 }
 
 func CreatePostgresDbConnection() *gorm.DB {
-	dbConfig := DbConfig{Host: "localhost", Port: "5432", Username: "macbookpro", Password: "root", DbName: "realestate"}
-
+	dbConfig := DbConfig{Host: "localhost", Port: "5432", Username: "postgres", Password: "test123", DbName: "property"}
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", dbConfig.Host, dbConfig.Port, dbConfig.Username, dbConfig.DbName, dbConfig.Password)
-
 	db, err := gorm.Open("postgres", dsn)
-
 	if err != nil {
 		fmt.Println("Can't connect to postgres dbs", err)
 		return nil
