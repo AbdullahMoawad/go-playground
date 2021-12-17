@@ -1,9 +1,3 @@
-https://github.com/go-ozzo/ozzo-validation
-
-https://github.com/spf13/cobra
-
-https://github.com/oxequa/realize
-
 https://www.google.com/search?q=gorm+github&oq=gorm+github&aqs=chrome..69i57j0l6j69i60.3997j0j4&sourceid=chrome&ie=UTF-8
 
 https://learning.oreilly.com/library/view/go-in-action/9781617291784/
