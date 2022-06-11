@@ -17,6 +17,7 @@ const (
 	DatabaseOperationFailed               = "invalid Operation"
 	ProfileError                          = "Error while getting profile data"
 )
+
 const (
 	StatusContinue           = 100 // RFC 7231, 6.2.1
 	StatusSwitchingProtocols = 101 // RFC 7231, 6.2.2

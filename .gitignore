@@ -5,6 +5,7 @@
 *.so
 *.dylib
 
+.postgress-data
 /.idea
 /src
 /bin

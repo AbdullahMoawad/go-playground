@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"property/ops"
 	StartServer "property/routes"
 )
