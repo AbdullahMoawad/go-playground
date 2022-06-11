@@ -17,7 +17,6 @@ type PropertyController struct {
 
 func (self PropertyController) Create(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-
 	newProperty := models.Property{}
 
 	if err := json.NewDecoder(r.Body).Decode(&newProperty); err != nil {

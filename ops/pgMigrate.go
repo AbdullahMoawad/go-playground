@@ -9,6 +9,7 @@ import (
 )
 
 var command = &cobra.Command{}
+
 var pgMigrate = &cobra.Command{
 	Use: "pg-migrate",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -35,8 +36,8 @@ var pgMigrate = &cobra.Command{
 func init() { command.AddCommand(pgMigrate) }
 
 func Execute() {
-	/*if err := command.Execute(); err != nil {
-		log.Println(err)
-		os.Exit(1)
-	}*/
+	err := command.Execute()
+	if err != nil {
+		return
+	}
 }

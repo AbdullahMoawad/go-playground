@@ -9,6 +9,7 @@ import (
 
 func Routes() {
 	r := mux.NewRouter()
+
 	user := controller.UserController{}
 	category := controller.CategoryController{}
 	property := controller.PropertyController{}
